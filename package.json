@@ -1,0 +1,21 @@
+{
+  "name": "foodresq-ai",
+  "version": "1.0.0",
+  "description": "FoodResQ AI — Dynamic Food Redistribution Network",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "seed": "cd backend && npm run seed",
+    "test": "cd backend && npm test",
+    "install": "cd backend && npm install"
+  },
+  "keywords": [
+    "foodresq-ai",
+    "food-redistribution",
+    "logistics",
+    "sustainability",
+    "sdg2"
+  ],
+  "author": "FoodResQ AI Team",
+  "license": "MIT"
+}

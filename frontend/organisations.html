@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partner & Stakeholder Directory — FoodResQ AI</title>
+  <meta name="description" content="Verified directory of food providers, recipient NGOs, and logistics fleet partners.">
+  
+  <!-- Favicon & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Core & Page CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="dashboard-body">
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="brand-text">
+            <span class="brand-title">FoodResQ<span class="brand-ai">AI</span></span>
+            <span class="brand-tagline">Logistics Engine</span>
+          </div>
+        </a>
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Collapse Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-persona">
+        <div class="persona-avatar" id="sidebarAvatar">AU</div>
+        <div class="persona-info">
+          <span class="persona-name" id="sidebarName">Admin User</span>
+          <span class="persona-role" id="sidebarRole">Network Dispatcher</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="food-listings.html" class="nav-item">
+          <i class="fa-solid fa-bowl-food"></i>
+          <span>Food Surplus</span>
+          <span class="nav-badge" id="badgeSurplus">4</span>
+        </a>
+        <a href="demand.html" class="nav-item">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>Recipient Demand</span>
+          <span class="nav-badge" id="badgeDemand">3</span>
+        </a>
+        <a href="matching.html" class="nav-item">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Smart Matching</span>
+        </a>
+        <a href="deliveries.html" class="nav-item">
+          <i class="fa-solid fa-truck-fast"></i>
+          <span>Fleet Deliveries</span>
+          <span class="nav-badge alert" id="badgeDeliveries">2</span>
+        </a>
+        <a href="map.html" class="nav-item">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Corridor Map</span>
+        </a>
+
+        <div class="nav-section-label">Intelligence</div>
+        <a href="ai-coordinator.html" class="nav-item">
+          <i class="fa-solid fa-robot"></i>
+          <span>AI Coordinator</span>
+        </a>
+        <a href="forecasts.html" class="nav-item">
+          <i class="fa-solid fa-chart-area"></i>
+          <span>Surplus Forecasts</span>
+        </a>
+        <a href="analytics.html" class="nav-item">
+          <i class="fa-solid fa-seedling"></i>
+          <span>Impact & ESG</span>
+        </a>
+
+        <div class="nav-section-label">Directory & System</div>
+        <a href="organisations.html" class="nav-item active">
+          <i class="fa-solid fa-building-ngo"></i>
+          <span>Partner Directory</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="network-status">
+          <span class="status-dot pulsing"></span>
+          <span>Mesh Sync: <strong>Optimal</strong></span>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="app-main">
+      <!-- Top Navigation Bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Mobile Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-area">
+            <h1 class="page-title">Partner & Node Directory</h1>
+            <p class="page-subtitle">Governance registry of vetted food providers, recipient shelters, and green couriers.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-menu" id="notificationsMenu">
+              <div class="dropdown-header">
+                <h3>System Notifications</h3>
+                <span class="badge badge-subtle" id="notifCount">3 New</span>
+              </div>
+              <div class="notif-list" id="notifListContainer"></div>
+              <div class="dropdown-footer">
+                <button class="btn btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="header-icon-btn" id="themeToggleBtn" aria-label="Toggle Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- User Profile -->
+          <div class="dropdown-wrapper">
+            <div class="user-pill" id="userPill">
+              <div class="user-avatar" id="headerAvatar">AU</div>
+              <div class="user-meta">
+                <span class="user-name" id="headerName">Admin User</span>
+                <span class="user-org" id="headerOrg">Central Food Bank</span>
+              </div>
+              <i class="fa-solid fa-chevron-down pill-arrow"></i>
+            </div>
+            <div class="dropdown-menu profile-menu" id="profileMenu">
+              <div class="dropdown-header">
+                <strong>Signed in as</strong>
+                <p id="profileMenuEmail">admin@foodresq.ai</p>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="persona-switch-section">
+                <div class="dropdown-label">Simulate Role View:</div>
+                <button class="persona-switch-btn active" data-persona="admin"><i class="fa-solid fa-shield-halved"></i> Administrator</button>
+                <button class="persona-switch-btn" data-persona="provider"><i class="fa-solid fa-hotel"></i> Aryabhatta Mess</button>
+                <button class="persona-switch-btn" data-persona="recipient"><i class="fa-solid fa-house-chimney-window"></i> Asha Shelter</button>
+                <button class="persona-switch-btn" data-persona="driver"><i class="fa-solid fa-truck"></i> Rajesh Kumar (EV)</button>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="settings.html" class="dropdown-link"><i class="fa-solid fa-sliders"></i> Preferences</a>
+              <button class="dropdown-link logout-link" id="menuLogoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        <!-- Directory KPIs -->
+        <div class="grid grid-4 gap-md mb-lg">
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Total Network Partners</span>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-primary);" id="statTotalOrgs">18 Nodes</div>
+            <p class="text-xs text-secondary">Vetted stakeholders operating across Gurugram & NCR.</p>
+          </div>
+
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Food Donors</span>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-success);" id="statDonorOrgs">9 Kitchens</div>
+            <p class="text-xs text-secondary">Hostels, banquets, university dining & hotels.</p>
+          </div>
+
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Verified Shelters</span>
+            <div class="text-2xl font-bold mb-xs" style="color: #6366f1;" id="statShelterOrgs">6 Shelters</div>
+            <p class="text-xs text-secondary">Non-profit shelters, child care homes & food banks.</p>
+          </div>
+
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Fleet & Logistics</span>
+            <div class="text-2xl font-bold mb-xs" style="color: #0284c7;" id="statLogisticsOrgs">3 Fleets</div>
+            <p class="text-xs text-secondary">Insulated EV vans and delivery partners.</p>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="card p-md mb-lg">
+          <div class="flex items-center justify-between flex-wrap gap-md">
+            <div class="flex items-center gap-md flex-1" style="min-width: 280px;">
+              <div class="form-group flex-1 mb-none">
+                <div class="search-input-wrapper">
+                  <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                  <input type="text" id="orgSearchInput" class="form-control" placeholder="Search by partner name, address, or license number...">
+                </div>
+              </div>
+              <div class="form-group mb-none" style="min-width: 170px;">
+                <select id="orgTypeFilter" class="form-control">
+                  <option value="all">All Stakeholder Types</option>
+                  <option value="donor">Food Providers</option>
+                  <option value="recipient">Recipient Shelters</option>
+                  <option value="logistics">Logistics Fleets</option>
+                </select>
+              </div>
+              <div class="form-group mb-none" style="min-width: 150px;">
+                <select id="orgStatusFilter" class="form-control">
+                  <option value="all">All Statuses</option>
+                  <option value="verified">Verified Active</option>
+                  <option value="pending">Pending Verification</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <button class="btn btn-primary" id="btnRegisterPartner">
+                <i class="fa-solid fa-plus mr-xs"></i> Onboard New Partner
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partner Cards Grid -->
+        <div class="grid grid-3 gap-md" id="organisationsGrid">
+          <!-- Rendered via js/organisations.js -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Onboard Partner Modal -->
+  <div class="modal-backdrop" id="onboardPartnerModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-building-circle-check text-primary mr-xs"></i> Onboard Stakeholder Node</h3>
+        <button class="modal-close-btn" data-close-modal="onboardPartnerModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="onboardPartnerForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label required">Organization Name</label>
+            <input type="text" id="partnerName" class="form-control" placeholder="e.g. Green Valley Hostel & Mess" required>
+          </div>
+          <div class="grid grid-2 gap-md">
+            <div class="form-group">
+              <label class="form-label required">Category</label>
+              <select id="partnerType" class="form-control" required>
+                <option value="donor">Food Provider (Mess/Hotel)</option>
+                <option value="recipient">Recipient Organization (NGO/Shelter)</option>
+                <option value="logistics">Logistics & Courier Partner</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Primary Contact Person</label>
+              <input type="text" id="partnerContact" class="form-control" placeholder="e.g. Neha Verma" required>
+            </div>
+          </div>
+          <div class="grid grid-2 gap-md">
+            <div class="form-group">
+              <label class="form-label required">Phone Number</label>
+              <input type="tel" id="partnerPhone" class="form-control" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Official Email</label>
+              <input type="email" id="partnerEmail" class="form-control" placeholder="contact@partner.org" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Facility Physical Address</label>
+            <input type="text" id="partnerAddress" class="form-control" placeholder="Building, Street, Sector, Gurugram" required>
+          </div>
+          <div class="grid grid-2 gap-md">
+            <div class="form-group">
+              <label class="form-label required">FSSAI / 80G License ID</label>
+              <input type="text" id="partnerLicense" class="form-control" placeholder="FSSAI-100200330044" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Initial Status</label>
+              <select id="partnerStatus" class="form-control" required>
+                <option value="verified">Verified & Active</option>
+                <option value="pending">Pending Document Audit</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal="onboardPartnerModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Complete Onboarding</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Partner Details Modal -->
+  <div class="modal-backdrop" id="partnerDetailModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="partnerDetailTitle">Partner Details</h3>
+        <button class="modal-close-btn" data-close-modal="partnerDetailModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="partnerDetailContent">
+        <!-- Injected via js/organisations.js -->
+      </div>
+      <div class="modal-footer" id="partnerDetailActions">
+        <!-- Action buttons -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/organisations.js"></script>
+</body>
+</html>

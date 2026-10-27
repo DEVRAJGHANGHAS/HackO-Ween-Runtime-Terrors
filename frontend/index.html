@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodResQ AI — Dynamic Food Redistribution Network</title>
+  <meta name="description" content="Predict Surplus. Match Demand. Deliver Before Expiry. An intelligent food redistribution and logistics network saving food from landfills in real time.">
+  
+  <!-- Premium Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Core & Landing Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="landing-navbar" id="landingNavbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="brand-title">FoodResQ <span>AI</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="#preview" class="nav-link">Live Preview</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#impact" class="nav-link">Impact Metrics</a></li>
+        <li><a href="#sdgs" class="nav-link">UN SDGs</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="btn btn-icon btn-ghost" id="landingThemeBtn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="login.html" class="btn btn-ghost">Sign In</a>
+        <a href="dashboard.html" class="btn btn-primary">
+          <span>Launch Dashboard</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Dropdown Drawer -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" style="display: none; background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: 1.5rem; position: fixed; top: 72px; left: 0; right: 0; z-index: 999; box-shadow: var(--shadow-float);">
+    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+      <li><a href="#how-it-works" class="nav-link" onclick="document.getElementById('mobileNavDrawer').style.display='none'">How It Works</a></li>
+      <li><a href="#preview" class="nav-link" onclick="document.getElementById('mobileNavDrawer').style.display='none'">Live Preview</a></li>
+      <li><a href="#features" class="nav-link" onclick="document.getElementById('mobileNavDrawer').style.display='none'">Platform Features</a></li>
+      <li><a href="#impact" class="nav-link" onclick="document.getElementById('mobileNavDrawer').style.display='none'">Impact & ESG</a></li>
+      <li><a href="#sdgs" class="nav-link" onclick="document.getElementById('mobileNavDrawer').style.display='none'">UN SDGs</a></li>
+    </ul>
+    <div style="display: flex; gap: 0.75rem;">
+      <a href="login.html" class="btn btn-outline flex-1">Sign In</a>
+      <a href="dashboard.html" class="btn btn-primary flex-1">Dashboard</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="hero-container">
+      <div class="hero-content reveal-on-scroll">
+        <div class="hero-badge">
+          <span class="status-dot pulsing mr-xs"></span>
+          <span>Intelligent Redistribution Mesh • Gurugram NCR</span>
+        </div>
+
+        <h1 class="hero-title">
+          Good Food Deserves a <span class="highlight">Second Chance.</span>
+        </h1>
+
+        <p class="hero-desc">
+          Turning surplus into impact with intelligent food redistribution, smarter logistics, and real-time coordination. Move perishables before safe-use deadlines expire.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="dashboard.html" class="btn btn-primary btn-lg">
+            <span>Start Redistributing</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="#preview" class="btn btn-outline btn-lg">
+            <i class="fa-solid fa-play text-primary"></i>
+            <span>Explore Live Demo</span>
+          </a>
+        </div>
+
+        <div class="hero-trust">
+          <div><i class="fa-solid fa-shield-halved"></i> FSSAI & HACCP Safe Handoffs</div>
+          <div><i class="fa-solid fa-bolt"></i> Sub-4 Hour Route Matching</div>
+          <div><i class="fa-solid fa-arrows-rotate"></i> Dynamic Fleet Failover</div>
+        </div>
+      </div>
+
+      <!-- Hero Visual Composition with Floating Micro-Pills -->
+      <div class="hero-visual reveal-on-scroll">
+        <!-- Floating Micro Stat Pill 1 -->
+        <div class="hero-floating-pill top-right">
+          <span class="status-dot pulsing" style="background: var(--color-lime-dark);"></span>
+          <span>120 Meals Salvaged • 4m ago</span>
+        </div>
+
+        <!-- Main Visual Card -->
+        <div class="hero-visual-card">
+          <div class="hero-visual-header">
+            <div style="font-weight: 700; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span class="status-dot pulsing"></span>
+              <span>Live Allocation Mesh</span>
+            </div>
+            <span class="badge badge-lime"><i class="fa-solid fa-signal mr-xs"></i> Active Telemetry</span>
+          </div>
+
+          <!-- Featured Batch Card -->
+          <div class="batch-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem;">
+              <div>
+                <span class="text-xs text-primary" style="font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">College Mess Surplus</span>
+                <div class="batch-title">Aryabhatta Hostel — Mess 2</div>
+              </div>
+              <span class="badge badge-warning"><i class="fa-solid fa-stopwatch mr-xs"></i> 3.5h Left</span>
+            </div>
+            <p style="font-size: 0.825rem; color: var(--color-text-secondary); line-height: 1.5;">
+              120 hot cooked portions (Dal Tadka, Steamed Rice, Seasonal Veg & Rotis) ready for immediate redistributive courier dispatch.
+            </p>
+            <div class="batch-meta">
+              <span><strong>Optimal Target:</strong> Asha Shelter + Navjyoti</span>
+              <span style="color: var(--color-primary); font-weight: 800;">Match Score: 94.2/100</span>
+            </div>
+          </div>
+
+          <!-- Incident Recovery Simulation Mini-Banner -->
+          <div style="background: var(--color-primary-light); border: 1px solid rgba(20, 90, 67, 0.15); padding: 0.85rem 1.15rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.15rem;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.85rem; color: var(--color-primary-dark);">Autonomous Exception Recovery</div>
+              <div style="font-size: 0.75rem; color: var(--color-text-secondary);">Simulates breakdown reroute in under 800ms</div>
+            </div>
+            <a href="ai-coordinator.html" class="btn btn-lime btn-sm">Test Recovery</a>
+          </div>
+
+          <!-- 3-Column Mini Telemetry Bar -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; text-align: center;">
+            <div style="background: var(--color-surface-subtle); padding: 0.75rem 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+              <div style="font-size: 1.35rem; font-weight: 900; color: var(--color-text-main);">225</div>
+              <div class="text-xs text-secondary font-medium">Available Meals*</div>
+            </div>
+            <div style="background: var(--color-surface-subtle); padding: 0.75rem 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+              <div style="font-size: 1.35rem; font-weight: 900; color: var(--color-primary);">99.1%</div>
+              <div class="text-xs text-secondary font-medium">Pre-Expiry Rate*</div>
+            </div>
+            <div style="background: var(--color-surface-subtle); padding: 0.75rem 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+              <div style="font-size: 1.35rem; font-weight: 900; color: var(--color-success);">38 min</div>
+              <div class="text-xs text-secondary font-medium">Avg Transit*</div>
+            </div>
+          </div>
+          <div class="text-xs text-secondary" style="text-align: center; margin-top: 0.65rem; font-style: italic;">
+            *Simulated demonstration telemetry data.
+          </div>
+        </div>
+
+        <!-- Floating Micro Stat Pill 2 -->
+        <div class="hero-floating-pill bottom-left">
+          <i class="fa-solid fa-leaf text-success"></i>
+          <span>1,450 kg CO₂e Prevented Today</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Animated Impact Statistics Section -->
+  <section id="impact" class="impact-section">
+    <div class="section-container">
+      <div class="section-header impact-header reveal-on-scroll">
+        <span class="section-tag">Demonstrated Sustainability</span>
+        <h2 class="section-title">Measurable Food Waste Prevention</h2>
+        <p class="section-desc">
+          Aggregated simulated demonstration metrics illustrating redistributive efficiency and environmental abatement across institutional kitchens.
+        </p>
+      </div>
+
+      <div class="impact-grid reveal-stagger">
+        <div class="impact-stat-card">
+          <div class="impact-val" data-counter-target="1450" data-counter-suffix="+">1,450+</div>
+          <div class="impact-label">Meals Redistributed*</div>
+          <div class="impact-sub">Delivered directly to community shelters</div>
+        </div>
+        <div class="impact-stat-card">
+          <div class="impact-val" data-counter-target="99.1" data-counter-suffix="%" data-counter-decimals="1">99.1%</div>
+          <div class="impact-label">Pre-Expiry Delivery Rate*</div>
+          <div class="impact-sub">Delivered within certified FSSAI window</div>
+        </div>
+        <div class="impact-stat-card">
+          <div class="impact-val" data-counter-target="580" data-counter-suffix=" kg">580 kg</div>
+          <div class="impact-label">Food Saved from Landfill*</div>
+          <div class="impact-sub">Nutrient-dense prepared cuisine</div>
+        </div>
+        <div class="impact-stat-card">
+          <div class="impact-val" data-counter-target="1450" data-counter-suffix=" kg">1,450 kg</div>
+          <div class="impact-label">CO₂e Landfill Avoidance*</div>
+          <div class="impact-sub">Calculated via EPA WARM model</div>
+        </div>
+      </div>
+
+      <div class="text-xs" style="text-align: center; color: #a4cdb8; margin-top: 2.25rem;">
+        <i class="fa-solid fa-circle-info mr-xs"></i> Notice: Displayed figures represent seeded demonstration dataset metrics.
+      </div>
+    </div>
+  </section>
+
+  <!-- Connected How-It-Works Section -->
+  <section id="how-it-works" class="section" style="background-color: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+    <div class="section-container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">System Architecture</span>
+        <h2 class="section-title">How FoodResQ AI Works</h2>
+        <p class="section-desc">
+          Four interconnected steps designed to move food safely and swiftly from commercial kitchens to shelter dining tables before expiry.
+        </p>
+      </div>
+
+      <div class="steps-wrapper">
+        <div class="steps-grid reveal-stagger">
+          <div class="step-card">
+            <div class="step-header">
+              <div class="step-num">01</div>
+              <div class="step-icon"><i class="fa-solid fa-bowl-food"></i></div>
+            </div>
+            <h3 class="step-title">Register Surplus</h3>
+            <p class="step-desc">
+              Hostels, banquet halls, and cafeterias log surplus portions with food category, preparation timestamp, and safe-use deadlines.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-header">
+              <div class="step-num">02</div>
+              <div class="step-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            </div>
+            <h3 class="step-title">Match Demand</h3>
+            <p class="step-desc">
+              Deterministic algorithm prioritizes urgent demands, checks recipient shelter intake capacity, and enforces zero over-allocation.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-header">
+              <div class="step-num">03</div>
+              <div class="step-icon"><i class="fa-solid fa-truck-fast"></i></div>
+            </div>
+            <h3 class="step-title">Coordinate Delivery</h3>
+            <p class="step-desc">
+              EV couriers receive route orders. Autonomous agent monitors vehicle transit and executes dynamic recovery upon breakdown alerts.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-header">
+              <div class="step-num">04</div>
+              <div class="step-icon"><i class="fa-solid fa-chart-pie"></i></div>
+            </div>
+            <h3 class="step-title">Measure Impact</h3>
+            <p class="step-desc">
+              Recipients confirm temperature integrity and portions received. Landfill diversion and CO₂e reduction are logged into auditable reports.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Live Product Preview Section -->
+  <section id="preview" class="section">
+    <div class="section-container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">Interactive Simulation</span>
+        <h2 class="section-title">Experience the Platform in Action</h2>
+        <p class="section-desc">
+          Test real-time surplus ingestion, deterministic matching score breakdown, and fleet corridor tracking right from this preview.
+        </p>
+      </div>
+
+      <div class="preview-mockup-wrapper reveal-on-scroll">
+        <!-- Mockup Browser Topbar -->
+        <div class="mockup-header-bar">
+          <div class="window-dots">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
+          </div>
+
+          <div class="preview-tab-controls">
+            <button class="preview-tab-btn active" data-preview-tab="panelSurplus">
+              <i class="fa-solid fa-bowl-food mr-xs"></i> 1. Live Surplus Feed
+            </button>
+            <button class="preview-tab-btn" data-preview-tab="panelMatching">
+              <i class="fa-solid fa-brain mr-xs"></i> 2. Smart Match Engine
+            </button>
+            <button class="preview-tab-btn" data-preview-tab="panelFleet">
+              <i class="fa-solid fa-truck-fast mr-xs"></i> 3. Fleet Telemetry
+            </button>
+          </div>
+
+          <div class="badge badge-success text-xs font-semibold">
+            <span class="status-dot pulsing mr-xs"></span> Simulated Mesh
+          </div>
+        </div>
+
+        <!-- Panel 1: Live Surplus Feed -->
+        <div class="preview-panel active" id="panelSurplus">
+          <div class="flex items-center justify-between mb-md flex-wrap gap-sm">
+            <div>
+              <h4 class="font-bold text-base">Active Food Surplus Consignments</h4>
+              <p class="text-xs text-secondary">Verified commercial kitchen registrations awaiting match synthesis</p>
+            </div>
+            <a href="food-listings.html" class="btn btn-primary btn-sm">Open Full Catalog</a>
+          </div>
+
+          <div class="grid grid-3 gap-md">
+            <div class="card p-md border">
+              <div class="flex justify-between items-center mb-xs">
+                <span class="badge badge-primary">Cooked Meals</span>
+                <span class="badge badge-warning">3.5h Safe Left</span>
+              </div>
+              <h5 class="font-bold text-sm mb-xs">Aryabhatta Hostel Mess</h5>
+              <p class="text-xs text-secondary mb-sm">120 Portions: Dal Tadka, Jeera Rice, Rotis & Veg</p>
+              <div class="flex justify-between text-xs text-secondary pt-xs border-top">
+                <span><i class="fa-solid fa-location-dot mr-xs text-primary"></i> South City II</span>
+                <strong class="text-primary font-bold">Ready to Dispatch</strong>
+              </div>
+            </div>
+
+            <div class="card p-md border">
+              <div class="flex justify-between items-center mb-xs">
+                <span class="badge badge-secondary">Event Catering</span>
+                <span class="badge badge-danger">2.0h Safe Left</span>
+              </div>
+              <h5 class="font-bold text-sm mb-xs">Grand Imperial Banquet</h5>
+              <p class="text-xs text-secondary mb-sm">260 Portions: Shahi Paneer, Pulao, Naan & Gravy</p>
+              <div class="flex justify-between text-xs text-secondary pt-xs border-top">
+                <span><i class="fa-solid fa-location-dot mr-xs text-primary"></i> Golf Course Ext</span>
+                <strong class="text-warning font-bold">Urgent Intake</strong>
+              </div>
+            </div>
+
+            <div class="card p-md border">
+              <div class="flex justify-between items-center mb-xs">
+                <span class="badge badge-subtle">Bakery Products</span>
+                <span class="badge badge-success">12.0h Safe Left</span>
+              </div>
+              <h5 class="font-bold text-sm mb-xs">Crust &amp; Crumb Bakery</h5>
+              <p class="text-xs text-secondary mb-sm">40 Loaves: Multigrain Bread & Fresh Croissants</p>
+              <div class="flex justify-between text-xs text-secondary pt-xs border-top">
+                <span><i class="fa-solid fa-location-dot mr-xs text-primary"></i> Sector 14</span>
+                <strong class="text-success font-bold">Ambient Delivery</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Smart Match Engine -->
+        <div class="preview-panel" id="panelMatching">
+          <div class="flex items-center justify-between mb-md flex-wrap gap-sm">
+            <div>
+              <h4 class="font-bold text-base">Multi-Factor Deterministic Match Engine</h4>
+              <p class="text-xs text-secondary">Optimal assignment solving portion knapsack, transit decay, and allergen profile</p>
+            </div>
+            <a href="matching.html" class="btn btn-primary btn-sm">Launch Matching Tool</a>
+          </div>
+
+          <div class="card p-lg border bg-surface-subtle">
+            <div class="grid grid-2 gap-lg items-center">
+              <div>
+                <div class="flex items-center gap-xs mb-xs">
+                  <span class="badge badge-primary">Match Proposal #PRO-94</span>
+                  <span class="badge badge-success">Optimality Score: 94.2/100</span>
+                </div>
+                <h4 class="font-bold text-base mb-xs">Aryabhatta Hostel Mess &rarr; Split Allocation</h4>
+                <p class="text-xs text-secondary mb-md">
+                  120 portions safely distributed with zero over-allocation across two priority recipient shelters.
+                </p>
+
+                <div class="flex flex-column gap-xs text-xs mb-md">
+                  <div class="p-xs bg-surface border rounded flex justify-between">
+                    <span>Target 1: <strong>Asha Community Shelter</strong> (70 Portions)</span>
+                    <strong class="text-primary font-bold">5.8 km away • 18 min</strong>
+                  </div>
+                  <div class="p-xs bg-surface border rounded flex justify-between">
+                    <span>Target 2: <strong>Navjyoti Child Care Home</strong> (50 Portions)</span>
+                    <strong class="text-primary font-bold">7.2 km away • 24 min</strong>
+                  </div>
+                </div>
+
+                <div class="text-xs text-secondary">
+                  <i class="fa-solid fa-check text-success mr-xs"></i> Perishability margin satisfied: <strong>3.5h safe &gt; 42m transit</strong>
+                </div>
+              </div>
+
+              <!-- Score Gauge Visual -->
+              <div class="card p-md bg-surface border text-center">
+                <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Score Breakdown Matrix</span>
+                <div style="font-size: 2.75rem; font-weight: 900; color: var(--color-primary); line-height: 1;" class="mb-xs">94.2</div>
+                <p class="text-xs text-secondary mb-md">Ranked #1 of 6 potential pairings</p>
+
+                <div class="flex flex-column gap-xs text-xs text-secondary">
+                  <div class="flex justify-between">
+                    <span>Distance Decay:</span> <strong class="text-success">92 / 100</strong>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Expiry Urgency Fit:</span> <strong class="text-success">96 / 100</strong>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Dietary &amp; Cold Chain:</span> <strong class="text-success">95 / 100</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Fleet Telemetry -->
+        <div class="preview-panel" id="panelFleet">
+          <div class="flex items-center justify-between mb-md flex-wrap gap-sm">
+            <div>
+              <h4 class="font-bold text-base">Fleet Operations & Live Corridor Telemetry</h4>
+              <p class="text-xs text-secondary">Green EV fleet routing with active thermal sensor verification</p>
+            </div>
+            <a href="map.html" class="btn btn-primary btn-sm">Open Full Geospatial Map</a>
+          </div>
+
+          <div class="grid grid-2 gap-md">
+            <div class="card p-md border">
+              <div class="flex justify-between items-center mb-xs">
+                <strong class="text-sm">Trip #DEL-101 (Tata Ace EV)</strong>
+                <span class="badge badge-primary"><i class="fa-solid fa-truck mr-xs"></i> In Transit</span>
+              </div>
+              <p class="text-xs text-secondary mb-sm">Driver: <strong>Rajesh Kumar</strong> (Reg: HR-26-EV-409)</p>
+              <div class="grid grid-3 gap-xs text-center text-xs mb-sm">
+                <div class="p-xs bg-surface border rounded">
+                  <span class="text-secondary block">Cargo Temp</span>
+                  <strong class="text-success font-bold">64°C (Safe Hot)</strong>
+                </div>
+                <div class="p-xs bg-surface border rounded">
+                  <span class="text-secondary block">Battery</span>
+                  <strong class="text-primary font-bold">78% EV</strong>
+                </div>
+                <div class="p-xs bg-surface border rounded">
+                  <span class="text-secondary block">ETA</span>
+                  <strong class="text-warning font-bold">14 mins</strong>
+                </div>
+              </div>
+              <div class="text-xs text-secondary pt-xs border-top flex justify-between">
+                <span>Waypoint: Near IFFCO Chowk</span>
+                <span class="text-primary font-semibold">Sensor Stream: Online</span>
+              </div>
+            </div>
+
+            <div class="card p-md border">
+              <div class="flex justify-between items-center mb-xs">
+                <strong class="text-sm">Trip #DEL-102 (Mahindra E-Supro)</strong>
+                <span class="badge badge-success"><i class="fa-solid fa-check mr-xs"></i> Completed</span>
+              </div>
+              <p class="text-xs text-secondary mb-sm">Driver: <strong>Anita Sharma</strong> (Refrigerated)</p>
+              <div class="grid grid-3 gap-xs text-center text-xs mb-sm">
+                <div class="p-xs bg-surface border rounded">
+                  <span class="text-secondary block">Delivered</span>
+                  <strong class="text-success font-bold">80 Portions</strong>
+                </div>
+                <div class="p-xs bg-surface border rounded">
+                  <span class="text-secondary block">Signee</span>
+                  <strong class="text-primary font-bold">Sister Maria</strong>
+                </div>
+                <div class="p-xs bg-surface border rounded">
+                  <span class="text-secondary block">Custody</span>
+                  <strong class="text-success font-bold">Verified</strong>
+                </div>
+              </div>
+              <div class="text-xs text-secondary pt-xs border-top flex justify-between">
+                <span>Proof of Delivery: Signed & Verified</span>
+                <span class="text-success font-semibold">100% On-Time</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Feature Showcase: Bento Grid Layout -->
+  <section id="features" class="section" style="background-color: var(--color-surface); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+    <div class="section-container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">Core Platform Capabilities</span>
+        <h2 class="section-title">Logistics Engineered for Perishables</h2>
+        <p class="section-desc">
+          High operational rigor balancing transit distance, cold-chain integrity, and automated vehicle recovery.
+        </p>
+      </div>
+
+      <div class="bento-grid reveal-stagger">
+        <!-- Bento Item 1: Wide Hero Feature -->
+        <div class="bento-item span-2">
+          <div>
+            <div class="bento-icon"><i class="fa-solid fa-network-wired"></i></div>
+            <h3 class="bento-title">Deterministic Smart Matching Engine</h3>
+            <p class="bento-desc">
+              Multi-objective linear solver that pairs donors and shelters respecting portion quantities, allergen profiles, dietary certifications, and transit time decay with guaranteed zero duplicate allocations.
+            </p>
+          </div>
+          <div class="bento-visual-preview">
+            <div class="flex items-center justify-between text-xs text-secondary mb-xs">
+              <span>Dynamic Solver Pipeline</span>
+              <strong class="text-success font-bold">Linear Complexity: O(N log N)</strong>
+            </div>
+            <div style="height: 6px; width: 100%; background: var(--color-border); border-radius: 3px; overflow: hidden;">
+              <div style="height: 100%; width: 94%; background: var(--color-primary); border-radius: 3px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento Item 2 -->
+        <div class="bento-item">
+          <div>
+            <div class="bento-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h3 class="bento-title">Surplus Predictive Forecasting</h3>
+            <p class="bento-desc">
+              Statistical lookahead models projecting recurring food surplus by kitchen category and day of week, pre-alerting shelters before preparation concludes.
+            </p>
+          </div>
+          <div class="bento-visual-preview text-xs text-secondary flex justify-between items-center">
+            <span>7-Day Accuracy</span>
+            <strong class="text-primary font-bold">92.4% Confidence</strong>
+          </div>
+        </div>
+
+        <!-- Bento Item 3 -->
+        <div class="bento-item">
+          <div>
+            <div class="bento-icon"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+            <h3 class="bento-title">Adaptive Vehicle Failover Recovery</h3>
+            <p class="bento-desc">
+              If an electric van encounters battery failure or congestion impasse, the agentic recovery system re-routes assignments to nearby standby vans in milliseconds.
+            </p>
+          </div>
+          <div class="bento-visual-preview text-xs text-secondary flex justify-between items-center">
+            <span>Solver Response Time</span>
+            <strong class="text-success font-bold">&lt; 800 ms Latency</strong>
+          </div>
+        </div>
+
+        <!-- Bento Item 4: Wide Feature -->
+        <div class="bento-item span-2">
+          <div>
+            <div class="bento-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <h3 class="bento-title">Live Geospatial Corridor Routing</h3>
+            <p class="bento-desc">
+              Interactive Leaflet and OpenStreetMap visualizer rendering real-time corridor vectors between food donors, recipient shelters, and green electric vehicles across Gurugram and the National Capital Region.
+            </p>
+          </div>
+          <div class="bento-visual-preview flex items-center justify-between text-xs">
+            <span class="text-secondary"><i class="fa-solid fa-satellite-dish mr-xs text-primary"></i> OpenStreetMap Open GIS Architecture</span>
+            <a href="map.html" class="text-primary font-bold">Launch Corridor Map &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Sustainability & UN SDGs Section -->
+  <section id="sdgs" class="section">
+    <div class="section-container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">UN Sustainability Goals</span>
+        <h2 class="section-title">Zero Hunger & Responsible Consumption</h2>
+        <p class="section-desc">
+          FoodResQ AI directly operationalizes United Nations Sustainable Development Goals 2 and 12 through auditable lifecycle carbon accounting.
+        </p>
+      </div>
+
+      <!-- Interactive Carbon Calculator Widget -->
+      <div class="sdg-calc-box reveal-on-scroll">
+        <div class="flex items-center justify-between flex-wrap gap-sm">
+          <div>
+            <h3 class="text-base font-bold flex items-center gap-xs">
+              <i class="fa-solid fa-calculator text-primary"></i>
+              <span>Interactive Environmental Impact Estimator</span>
+            </h3>
+            <p class="text-xs text-secondary mt-xs">Drag slider or enter meals to project environmental savings using EPA WARM v15 standards.</p>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span class="text-xs font-semibold text-secondary">Meals Count:</span>
+            <input type="number" id="calcMealInput" value="500" min="10" max="10000" step="10" class="form-control" style="width: 100px; padding: 0.35rem 0.65rem; font-weight: 700;">
+          </div>
+        </div>
+
+        <div class="calc-slider-wrapper">
+          <input type="range" id="calcMealSlider" min="50" max="5000" step="50" value="500" class="calc-range-slider">
+        </div>
+
+        <div class="calc-metrics-grid">
+          <div class="calc-metric-card">
+            <span class="text-xs text-secondary font-semibold uppercase block">Food Diverted</span>
+            <div class="calc-metric-num" id="calcFoodKg">210 kg</div>
+            <span class="text-xs text-secondary">Based on 0.42 kg/meal benchmark</span>
+          </div>
+          <div class="calc-metric-card">
+            <span class="text-xs text-secondary font-semibold uppercase block">CO₂e Avoided</span>
+            <div class="calc-metric-num" style="color: var(--color-success);" id="calcCO2eKg">525 kg CO₂e</div>
+            <span class="text-xs text-secondary">EPA WARM 2.5x landfill conversion factor</span>
+          </div>
+          <div class="calc-metric-card">
+            <span class="text-xs text-secondary font-semibold uppercase block">Water Conserved</span>
+            <div class="calc-metric-num" style="color: #0284c7;" id="calcWaterLitres">210,000 L</div>
+            <span class="text-xs text-secondary">UNESCO 1,000L embodied virtual water</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SDG Badges Grid -->
+      <div class="sdg-grid reveal-stagger">
+        <div class="sdg-card">
+          <div class="sdg-badge-num sdg-2">2</div>
+          <div>
+            <h4 class="font-bold text-base mb-xs">SDG 2 — Zero Hunger</h4>
+            <p class="text-xs text-secondary leading-relaxed">
+              Targeting immediate nutritional fulfillment for underserved community shelters, children homes, and food insecure citizens across urban corridors.
+            </p>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-badge-num sdg-12">12</div>
+          <div>
+            <h4 class="font-bold text-base mb-xs">SDG 12 — Responsible Consumption</h4>
+            <p class="text-xs text-secondary leading-relaxed">
+              Combating greenhouse methane release by redirecting institutional food waste away from municipal landfills into verified cold-chain recovery pipelines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final High-Impact CTA Banner -->
+  <section class="final-cta-section">
+    <div class="final-cta-content reveal-on-scroll">
+      <h2 class="final-cta-title">Ready to Eliminate Food Waste in Your Institution?</h2>
+      <p class="final-cta-desc">
+        Join our simulated network of college hostels, banquet venues, and community shelters. Predict surplus, match demand, and deliver before expiry.
+      </p>
+      <div class="flex items-center justify-center gap-md flex-wrap">
+        <a href="dashboard.html" class="btn btn-lime btn-lg">
+          <span>Launch Live Dashboard</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="login.html" class="btn btn-outline btn-lg" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4);">
+          <i class="fa-solid fa-user-lock mr-xs"></i> Demo Persona Login
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Public Footer -->
+  <footer class="landing-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <a href="index.html" class="brand-logo" style="color: #FFFFFF; margin-bottom: 1.25rem;">
+          <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="brand-title">FoodResQ <span style="color: var(--color-lime);">AI</span></div>
+        </a>
+        <p style="font-size: 0.85rem; color: #9ABFA9; max-width: 340px; line-height: 1.6; margin-bottom: 1.25rem;">
+          Dynamic food redistribution network connecting commercial kitchens with verified shelters before safe-use deadlines expire.
+        </p>
+        <span class="badge badge-lime" style="font-size: 0.725rem;">
+          Predict Surplus. Match Demand. Deliver Before Expiry.
+        </span>
+      </div>
+
+      <div class="footer-col">
+        <h4>Operations</h4>
+        <ul class="footer-links">
+          <li><a href="dashboard.html">Operations Dashboard</a></li>
+          <li><a href="food-listings.html">Food Surplus Catalog</a></li>
+          <li><a href="demand.html">Recipient Demand</a></li>
+          <li><a href="matching.html">Smart Matching Engine</a></li>
+          <li><a href="deliveries.html">Deliveries & Fleet</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Intelligence & Nodes</h4>
+        <ul class="footer-links">
+          <li><a href="ai-coordinator.html">AI Coordinator</a></li>
+          <li><a href="map.html">Live Geospatial Map</a></li>
+          <li><a href="forecasts.html">Surplus Forecasts</a></li>
+          <li><a href="analytics.html">Impact & ESG Analytics</a></li>
+          <li><a href="organisations.html">Partner Registry</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Project Notice</h4>
+        <p style="font-size: 0.8rem; color: #7A9E8C; line-height: 1.55; margin-bottom: 1rem;">
+          Educational frontend demonstration for college hackathon. Telemetry, GPS coordinates, and vehicle breakdown triggers are simulated in browser LocalStorage.
+        </p>
+        <div>
+          <a href="settings.html" class="btn btn-outline btn-sm" style="color: #FFFFFF; border-color: rgba(255,255,255,0.25);">
+            <i class="fa-solid fa-sliders mr-xs"></i> Demo Preferences
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 FoodResQ AI Platform. Frontend-Only College Demonstration Project.</div>
+      <div>Designed for zero food waste and maximum community nourishment.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Landing theme switcher
+    const themeBtn = document.getElementById('landingThemeBtn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        StorageManager.setTheme(next);
+        themeBtn.innerHTML = next === 'dark' ? '<i class="fa-solid fa-sun text-warning"></i>' : '<i class="fa-solid fa-moon"></i>';
+      });
+      if (document.documentElement.getAttribute('data-theme') === 'dark') {
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun text-warning"></i>';
+      }
+    }
+
+    // Mobile nav toggle
+    const mobileToggle = document.getElementById('mobileNavToggle');
+    const mobileDrawer = document.getElementById('mobileNavDrawer');
+    if (mobileToggle && mobileDrawer) {
+      mobileToggle.addEventListener('click', () => {
+        const isHidden = mobileDrawer.style.display === 'none';
+        mobileDrawer.style.display = isHidden ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

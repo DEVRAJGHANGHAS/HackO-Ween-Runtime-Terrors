@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found — FoodResQ AI</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    .not-found-container {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+    .not-found-card {
+      max-width: 540px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2rem;
+      box-shadow: var(--shadow-card);
+    }
+    .not-found-code {
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--color-primary);
+      line-height: 1;
+      margin-bottom: 1rem;
+      letter-spacing: -2px;
+    }
+    .not-found-icon {
+      font-size: 2.5rem;
+      color: var(--color-warning);
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimal Header -->
+  <header class="landing-header">
+    <div class="landing-container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
+        <span class="logo-text">FoodResQ<span class="logo-ai">AI</span></span>
+      </a>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn btn-primary btn-sm">Open Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="not-found-container">
+    <div class="not-found-card">
+      <div class="not-found-icon">
+        <i class="fa-solid fa-route"></i>
+      </div>
+      <div class="not-found-code">404</div>
+      <h1 class="text-xl font-bold mb-xs">Redistribution Corridor Not Found</h1>
+      <p class="text-sm text-secondary mb-lg">
+        The destination node, consignment listing, or report route you are looking for has been completed, rerouted, or does not exist.
+      </p>
+      <div class="flex items-center justify-center gap-sm flex-wrap">
+        <a href="dashboard.html" class="btn btn-primary">
+          <i class="fa-solid fa-chart-line mr-xs"></i> Return to Dashboard
+        </a>
+        <a href="map.html" class="btn btn-secondary">
+          <i class="fa-solid fa-map-location-dot mr-xs"></i> View Live Map
+        </a>
+        <a href="index.html" class="btn btn-secondary">
+          <i class="fa-solid fa-house mr-xs"></i> Home
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Minimal Footer -->
+  <footer class="landing-footer py-md text-center text-xs text-secondary border-top">
+    <p>&copy; 2026 FoodResQ AI — Dynamic Food Redistribution Network. Demonstration Project.</p>
+  </footer>
+
+</body>
+</html>

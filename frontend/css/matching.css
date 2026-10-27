@@ -1,0 +1,100 @@
+/* ==========================================================================
+   FoodResQ AI — Smart Matching Workspace Styles
+   ========================================================================== */
+
+.matching-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .matching-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.supply-demand-box {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.matching-results-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .matching-results-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.proposal-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.proposal-card:hover {
+  border-color: var(--color-primary);
+}
+
+.proposal-card.selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.proposal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.proposal-route {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.proposal-factors-list {
+  background-color: var(--color-surface-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+}
+
+.factor-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scoring-badge {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  background-color: var(--color-lime);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-md);
+}

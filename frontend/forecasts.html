@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surplus Forecasting & Demand Lookahead — FoodResQ AI</title>
+  <meta name="description" content="Predictive surplus modeling with confidence intervals, facility breakdown, and seasonal demand balancing.">
+  
+  <!-- Favicon & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Core & Page CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="dashboard-body">
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="brand-text">
+            <span class="brand-title">FoodResQ<span class="brand-ai">AI</span></span>
+            <span class="brand-tagline">Logistics Engine</span>
+          </div>
+        </a>
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Collapse Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-persona">
+        <div class="persona-avatar" id="sidebarAvatar">AU</div>
+        <div class="persona-info">
+          <span class="persona-name" id="sidebarName">Admin User</span>
+          <span class="persona-role" id="sidebarRole">Network Dispatcher</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="food-listings.html" class="nav-item">
+          <i class="fa-solid fa-bowl-food"></i>
+          <span>Food Surplus</span>
+          <span class="nav-badge" id="badgeSurplus">4</span>
+        </a>
+        <a href="demand.html" class="nav-item">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>Recipient Demand</span>
+          <span class="nav-badge" id="badgeDemand">3</span>
+        </a>
+        <a href="matching.html" class="nav-item">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Smart Matching</span>
+        </a>
+        <a href="deliveries.html" class="nav-item">
+          <i class="fa-solid fa-truck-fast"></i>
+          <span>Fleet Deliveries</span>
+          <span class="nav-badge alert" id="badgeDeliveries">2</span>
+        </a>
+        <a href="map.html" class="nav-item">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Corridor Map</span>
+        </a>
+
+        <div class="nav-section-label">Intelligence</div>
+        <a href="ai-coordinator.html" class="nav-item">
+          <i class="fa-solid fa-robot"></i>
+          <span>AI Coordinator</span>
+        </a>
+        <a href="forecasts.html" class="nav-item active">
+          <i class="fa-solid fa-chart-area"></i>
+          <span>Surplus Forecasts</span>
+        </a>
+        <a href="analytics.html" class="nav-item">
+          <i class="fa-solid fa-seedling"></i>
+          <span>Impact & ESG</span>
+        </a>
+
+        <div class="nav-section-label">Directory & System</div>
+        <a href="organisations.html" class="nav-item">
+          <i class="fa-solid fa-building-ngo"></i>
+          <span>Partner Directory</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="network-status">
+          <span class="status-dot pulsing"></span>
+          <span>Mesh Sync: <strong>Optimal</strong></span>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="app-main">
+      <!-- Top Navigation Bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Mobile Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-area">
+            <h1 class="page-title">Surplus Forecasts & Capacity Lookahead</h1>
+            <p class="page-subtitle">Predictive models anticipate upcoming excess food volumes before preparation concludes.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-menu" id="notificationsMenu">
+              <div class="dropdown-header">
+                <h3>System Notifications</h3>
+                <span class="badge badge-subtle" id="notifCount">3 New</span>
+              </div>
+              <div class="notif-list" id="notifListContainer"></div>
+              <div class="dropdown-footer">
+                <button class="btn btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="header-icon-btn" id="themeToggleBtn" aria-label="Toggle Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- User Profile -->
+          <div class="dropdown-wrapper">
+            <div class="user-pill" id="userPill">
+              <div class="user-avatar" id="headerAvatar">AU</div>
+              <div class="user-meta">
+                <span class="user-name" id="headerName">Admin User</span>
+                <span class="user-org" id="headerOrg">Central Food Bank</span>
+              </div>
+              <i class="fa-solid fa-chevron-down pill-arrow"></i>
+            </div>
+            <div class="dropdown-menu profile-menu" id="profileMenu">
+              <div class="dropdown-header">
+                <strong>Signed in as</strong>
+                <p id="profileMenuEmail">admin@foodresq.ai</p>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="persona-switch-section">
+                <div class="dropdown-label">Simulate Role View:</div>
+                <button class="persona-switch-btn active" data-persona="admin"><i class="fa-solid fa-shield-halved"></i> Administrator</button>
+                <button class="persona-switch-btn" data-persona="provider"><i class="fa-solid fa-hotel"></i> Aryabhatta Mess</button>
+                <button class="persona-switch-btn" data-persona="recipient"><i class="fa-solid fa-house-chimney-window"></i> Asha Shelter</button>
+                <button class="persona-switch-btn" data-persona="driver"><i class="fa-solid fa-truck"></i> Rajesh Kumar (EV)</button>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="settings.html" class="dropdown-link"><i class="fa-solid fa-sliders"></i> Preferences</a>
+              <button class="dropdown-link logout-link" id="menuLogoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        <!-- Forecast KPIs -->
+        <div class="grid grid-4 gap-md mb-lg">
+          <div class="card p-md">
+            <div class="flex items-center justify-between mb-xs">
+              <span class="text-xs font-semibold text-secondary uppercase">Projected 7-Day Surplus</span>
+              <span class="badge badge-success"><i class="fa-solid fa-arrow-trend-up mr-xs"></i> +8.4%</span>
+            </div>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-primary);">2,450 Meals</div>
+            <p class="text-xs text-secondary">Confidence score: <strong>92.4%</strong> across 4 major nodes</p>
+          </div>
+
+          <div class="card p-md">
+            <div class="flex items-center justify-between mb-xs">
+              <span class="text-xs font-semibold text-secondary uppercase">Peak Surge Window</span>
+              <span class="badge badge-warning"><i class="fa-solid fa-clock mr-xs"></i> High Volume</span>
+            </div>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-warning);">Sat 22:30 - 00:30</div>
+            <p class="text-xs text-secondary">Banquet Hall wedding reception corridor (1,200 portions)</p>
+          </div>
+
+          <div class="card p-md">
+            <div class="flex items-center justify-between mb-xs">
+              <span class="text-xs font-semibold text-secondary uppercase">Expected Recipient Deficit</span>
+              <span class="badge badge-danger"><i class="fa-solid fa-hand-holding-dollar mr-xs"></i> Gap</span>
+            </div>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-danger);">320 Portions</div>
+            <p class="text-xs text-secondary">Old Gurugram shelters require supplemental grains</p>
+          </div>
+
+          <div class="card p-md">
+            <div class="flex items-center justify-between mb-xs">
+              <span class="text-xs font-semibold text-secondary uppercase">Fleet Pre-allocation</span>
+              <span class="badge badge-primary"><i class="fa-solid fa-bolt mr-xs"></i> Ready</span>
+            </div>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-primary);">4 EV Vans</div>
+            <p class="text-xs text-secondary">Battery thresholds validated for weekend night runs</p>
+          </div>
+        </div>
+
+        <!-- 7-Day Lookahead Line Chart with Confidence Band -->
+        <div class="card p-lg mb-lg">
+          <div class="flex items-center justify-between flex-wrap gap-sm mb-md">
+            <div>
+              <h3 class="text-base font-bold">Surplus Projection Curve & Uncertainty Interval</h3>
+              <p class="text-xs text-secondary mt-xs">Historical volume against 7-day predicted surplus trajectory with 90% confidence corridor.</p>
+            </div>
+            <div class="flex items-center gap-xs">
+              <button class="btn btn-secondary btn-sm active" id="btnHorizon7">7-Day Horizon</button>
+              <button class="btn btn-secondary btn-sm" id="btnHorizon14">14-Day Horizon</button>
+              <button class="btn btn-secondary btn-sm" id="btnHorizon30">Monthly Trend</button>
+            </div>
+          </div>
+          <div style="height: 320px; width: 100%;">
+            <canvas id="forecastChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Facility Breakdown Projections Table -->
+        <div class="card p-lg mb-lg">
+          <div class="flex items-center justify-between flex-wrap gap-sm mb-md">
+            <div>
+              <h3 class="text-base font-bold">Facility-Level Surplus Projections & Recommended Pre-actions</h3>
+              <p class="text-xs text-secondary mt-xs">Disaggregated predictions by hostel mess, corporate pantry, banquet venue, and retail bakery.</p>
+            </div>
+            <div class="flex items-center gap-sm">
+              <span class="badge badge-subtle"><i class="fa-solid fa-circle-info mr-xs"></i> Auto-updates daily at 06:00 IST</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Facility / Provider</th>
+                  <th>Category</th>
+                  <th>Daily Avg</th>
+                  <th>Predicted 7-Day Volume</th>
+                  <th>Expected Peak Time</th>
+                  <th>Perishability Risk</th>
+                  <th>Recommended Mitigation</th>
+                </tr>
+              </thead>
+              <tbody id="forecastTableBody">
+                <!-- Injected via js/forecasts.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Methodology Explanation Card -->
+        <div class="card p-md bg-surface border">
+          <div class="flex items-start gap-md">
+            <div style="width: 40px; height: 40px; background: rgba(23, 107, 77, 0.1); color: var(--color-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+              <i class="fa-solid fa-calculator"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm mb-xs">Predictive Modeling Architecture & Data Disclaimers</h4>
+              <p class="text-xs text-secondary leading-relaxed">
+                FoodResQ AI forecasts food surplus volumes through an ensemble time-series regressor combining historical mess registers, university exam/break schedules, regional weather telemetry, and wedding reception bookings. Confidence bounds represent the 5th and 95th percentiles of Monte Carlo demand iterations.
+              </p>
+              <p class="text-xs text-secondary mt-xs font-medium">
+                * Note: All predictions and historical trends shown are synthetic demo simulations prepared for the hackathon demonstration.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/forecasts.js"></script>
+</body>
+</html>

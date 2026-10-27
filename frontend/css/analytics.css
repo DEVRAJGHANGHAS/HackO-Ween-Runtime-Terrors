@@ -1,0 +1,63 @@
+/* ==========================================================================
+   FoodResQ AI — Analytics & Impact Styles
+   ========================================================================== */
+
+.analytics-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.co2-banner {
+  background: linear-gradient(135deg, var(--color-primary-dark), #1d6e50);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-card);
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.co2-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-lime);
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.co2-stat-num {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--color-lime);
+}
+
+.methodology-box {
+  background-color: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.methodology-item {
+  margin-bottom: 0.75rem;
+}
+
+.methodology-item strong {
+  color: var(--color-text-main);
+  display: block;
+  margin-bottom: 0.15rem;
+}

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impact & ESG Analytics — FoodResQ AI</title>
+  <meta name="description" content="Lifecycle carbon accounting, landfill diversion, and nutritional impact analytics.">
+  
+  <!-- Favicon & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Core & Page CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/analytics.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="dashboard-body">
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="brand-text">
+            <span class="brand-title">FoodResQ<span class="brand-ai">AI</span></span>
+            <span class="brand-tagline">Logistics Engine</span>
+          </div>
+        </a>
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Collapse Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-persona">
+        <div class="persona-avatar" id="sidebarAvatar">AU</div>
+        <div class="persona-info">
+          <span class="persona-name" id="sidebarName">Admin User</span>
+          <span class="persona-role" id="sidebarRole">Network Dispatcher</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="food-listings.html" class="nav-item">
+          <i class="fa-solid fa-bowl-food"></i>
+          <span>Food Surplus</span>
+          <span class="nav-badge" id="badgeSurplus">4</span>
+        </a>
+        <a href="demand.html" class="nav-item">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>Recipient Demand</span>
+          <span class="nav-badge" id="badgeDemand">3</span>
+        </a>
+        <a href="matching.html" class="nav-item">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Smart Matching</span>
+        </a>
+        <a href="deliveries.html" class="nav-item">
+          <i class="fa-solid fa-truck-fast"></i>
+          <span>Fleet Deliveries</span>
+          <span class="nav-badge alert" id="badgeDeliveries">2</span>
+        </a>
+        <a href="map.html" class="nav-item">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Corridor Map</span>
+        </a>
+
+        <div class="nav-section-label">Intelligence</div>
+        <a href="ai-coordinator.html" class="nav-item">
+          <i class="fa-solid fa-robot"></i>
+          <span>AI Coordinator</span>
+        </a>
+        <a href="forecasts.html" class="nav-item">
+          <i class="fa-solid fa-chart-area"></i>
+          <span>Surplus Forecasts</span>
+        </a>
+        <a href="analytics.html" class="nav-item active">
+          <i class="fa-solid fa-seedling"></i>
+          <span>Impact & ESG</span>
+        </a>
+
+        <div class="nav-section-label">Directory & System</div>
+        <a href="organisations.html" class="nav-item">
+          <i class="fa-solid fa-building-ngo"></i>
+          <span>Partner Directory</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="network-status">
+          <span class="status-dot pulsing"></span>
+          <span>Mesh Sync: <strong>Optimal</strong></span>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="app-main">
+      <!-- Top Navigation Bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Mobile Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-area">
+            <h1 class="page-title">Impact & ESG Sustainability Analytics</h1>
+            <p class="page-subtitle">Audited metrics on carbon emission abatement, landfill diversion, and nutritional support.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-menu" id="notificationsMenu">
+              <div class="dropdown-header">
+                <h3>System Notifications</h3>
+                <span class="badge badge-subtle" id="notifCount">3 New</span>
+              </div>
+              <div class="notif-list" id="notifListContainer"></div>
+              <div class="dropdown-footer">
+                <button class="btn btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="header-icon-btn" id="themeToggleBtn" aria-label="Toggle Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- User Profile -->
+          <div class="dropdown-wrapper">
+            <div class="user-pill" id="userPill">
+              <div class="user-avatar" id="headerAvatar">AU</div>
+              <div class="user-meta">
+                <span class="user-name" id="headerName">Admin User</span>
+                <span class="user-org" id="headerOrg">Central Food Bank</span>
+              </div>
+              <i class="fa-solid fa-chevron-down pill-arrow"></i>
+            </div>
+            <div class="dropdown-menu profile-menu" id="profileMenu">
+              <div class="dropdown-header">
+                <strong>Signed in as</strong>
+                <p id="profileMenuEmail">admin@foodresq.ai</p>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="persona-switch-section">
+                <div class="dropdown-label">Simulate Role View:</div>
+                <button class="persona-switch-btn active" data-persona="admin"><i class="fa-solid fa-shield-halved"></i> Administrator</button>
+                <button class="persona-switch-btn" data-persona="provider"><i class="fa-solid fa-hotel"></i> Aryabhatta Mess</button>
+                <button class="persona-switch-btn" data-persona="recipient"><i class="fa-solid fa-house-chimney-window"></i> Asha Shelter</button>
+                <button class="persona-switch-btn" data-persona="driver"><i class="fa-solid fa-truck"></i> Rajesh Kumar (EV)</button>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="settings.html" class="dropdown-link"><i class="fa-solid fa-sliders"></i> Preferences</a>
+              <button class="dropdown-link logout-link" id="menuLogoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        <!-- Controls Bar -->
+        <div class="card p-md mb-lg">
+          <div class="flex items-center justify-between flex-wrap gap-md">
+            <div class="flex items-center gap-xs">
+              <button class="btn btn-secondary btn-sm active" id="filter7d">Last 7 Days</button>
+              <button class="btn btn-secondary btn-sm" id="filter30d">Last 30 Days</button>
+              <button class="btn btn-secondary btn-sm" id="filterYTD">Year to Date (YTD)</button>
+            </div>
+            <div class="analytics-header-actions">
+              <button class="btn btn-primary btn-sm" id="btnExportCSV">
+                <i class="fa-solid fa-file-csv mr-xs"></i> Export Audited ESG CSV
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero CO2e Banner -->
+        <div class="co2-banner">
+          <div class="flex items-center gap-md">
+            <div class="co2-icon">
+              <i class="fa-solid fa-cloud-arrow-down"></i>
+            </div>
+            <div>
+              <div class="text-xs uppercase tracking-wider text-lime font-bold mb-xs">EPA WARM Standard Verification</div>
+              <div class="co2-stat-num" id="statCO2Val">12,480 kg CO₂e</div>
+              <p class="text-xs" style="color: #d1fae5; max-width: 500px; margin-top: 4px;">
+                Atmospheric greenhouse gas emissions avoided by diverting organic matter away from anaerobic municipal landfill decay.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-xl">
+            <div>
+              <span class="text-xs block text-lime font-semibold">Total Food Salvaged</span>
+              <strong class="text-xl font-bold" id="statFoodKg">4,992 kg</strong>
+            </div>
+            <div>
+              <span class="text-xs block text-lime font-semibold">Meals Distributed</span>
+              <strong class="text-xl font-bold" id="statMealsNum">11,885 meals</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 ESG Pillars -->
+        <div class="grid grid-4 gap-md mb-lg">
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Direct Meals Provided</span>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-primary);">11,885</div>
+            <p class="text-xs text-secondary">Nutritional support distributed to 1,240 individuals across 8 shelters.</p>
+          </div>
+
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Water Footprint Conserved</span>
+            <div class="text-2xl font-bold mb-xs" style="color: #0284c7;">4.99 Million Litres</div>
+            <p class="text-xs text-secondary">Virtual irrigation and supply water embodied in conserved agricultural produce.</p>
+          </div>
+
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Safe Deadline Compliance</span>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-success);">99.1%</div>
+            <p class="text-xs text-secondary">All batches delivered within microbiological FSSAI safety window.</p>
+          </div>
+
+          <div class="card p-md">
+            <span class="text-xs font-semibold text-secondary uppercase block mb-xs">Economic Value Saved</span>
+            <div class="text-2xl font-bold mb-xs" style="color: var(--color-warning);">₹5,94,250</div>
+            <p class="text-xs text-secondary">Estimated replacement value based on ₹50 average institutional meal cost.</p>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid grid-2 gap-lg mb-lg">
+          <!-- Weekly Velocity Bar Chart -->
+          <div class="card p-lg">
+            <h3 class="text-base font-bold mb-xs">Listed Surplus vs Successfully Delivered</h3>
+            <p class="text-xs text-secondary mb-md">Comparison of announced kitchen surplus against verified receipt at shelters.</p>
+            <div style="height: 280px; width: 100%;">
+              <canvas id="velocityBarChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Category Breakdown Doughnut -->
+          <div class="card p-lg">
+            <h3 class="text-base font-bold mb-xs">Redistribution by Consignment Category</h3>
+            <p class="text-xs text-secondary mb-md">Relative volume distribution across perishability classes.</p>
+            <div style="height: 280px; width: 100%;">
+              <canvas id="categoryDoughnutChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lifecycle Batch Audits Table -->
+        <div class="card p-lg mb-lg">
+          <div class="flex items-center justify-between flex-wrap gap-sm mb-md">
+            <div>
+              <h3 class="text-base font-bold">Lifecycle Batch Audit Register</h3>
+              <p class="text-xs text-secondary mt-xs">Immutable chain-of-custody delivery log with environmental calculation proof.</p>
+            </div>
+            <span class="badge badge-success"><i class="fa-solid fa-shield-check mr-xs"></i> 100% Chain-of-Custody Verified</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Batch ID</th>
+                  <th>Date & Time</th>
+                  <th>Donor Node</th>
+                  <th>Recipient Shelter</th>
+                  <th>Food Category</th>
+                  <th>Portions</th>
+                  <th>Weight (kg)</th>
+                  <th>CO₂e Saved (kg)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="batchAuditTableBody">
+                <!-- Injected via js/analytics.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Scientific Methodology Box -->
+        <div class="methodology-box">
+          <h4 class="font-bold text-sm mb-sm text-main"><i class="fa-solid fa-square-root-variable text-primary mr-xs"></i> Environmental Impact Calculation Methodology</h4>
+          <div class="grid grid-3 gap-md">
+            <div class="methodology-item">
+              <strong>1. Food Weight Estimation</strong>
+              <span>
+                Standard meal portion conversion: <code>Weight = Portions &times; 0.42 kg</code> (Standard cooked thali weight benchmark per FSSAI guidelines).
+              </span>
+            </div>
+            <div class="methodology-item">
+              <strong>2. Landfill GHG Abatement</strong>
+              <span>
+                Based on EPA WARM v15 landfill diversion metric: <code>CO₂e Avoided = Food Weight (kg) &times; 2.5 kg CO₂e</code> (Accounts for methane emissions avoided).
+              </span>
+            </div>
+            <div class="methodology-item">
+              <strong>3. Embedded Water Conservation</strong>
+              <span>
+                Derived from UNESCO Water Footprint Network: <code>Water Saved = Food Weight (kg) &times; 1,000 Litres</code> of embodied lifecycle water.
+              </span>
+            </div>
+          </div>
+          <div class="mt-sm pt-xs border-top text-xs text-secondary">
+            * All figures, metrics, and logs displayed represent simulated demonstration data for hackathon evaluation.
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/analytics.js"></script>
+</body>
+</html>

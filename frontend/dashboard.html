@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operational Dashboard — FoodResQ AI</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo">
+          <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
+          <span class="logo-text">FoodResQ <span style="color: var(--color-lime);">AI</span></span>
+        </a>
+        <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Toggle Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Overview</span>
+        </a>
+        <a href="food-listings.html" class="nav-item">
+          <i class="fa-solid fa-utensils"></i>
+          <span>Food Listings</span>
+          <span class="nav-badge" id="badge-listings-count">0</span>
+        </a>
+        <a href="demand.html" class="nav-item">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>Recipient Demand</span>
+          <span class="nav-badge" id="badge-demands-count">0</span>
+        </a>
+        <a href="matching.html" class="nav-item highlight-ai">
+          <i class="fa-solid fa-microchip"></i>
+          <span>Smart Matching</span>
+        </a>
+        <a href="deliveries.html" class="nav-item">
+          <i class="fa-solid fa-truck-fast"></i>
+          <span>Deliveries</span>
+          <span class="nav-badge" id="badge-deliveries-count">0</span>
+        </a>
+        <a href="map.html" class="nav-item">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Map</span>
+        </a>
+        <a href="ai-coordinator.html" class="nav-item highlight-ai">
+          <i class="fa-solid fa-brain"></i>
+          <span>AI Coordinator</span>
+        </a>
+        <a href="forecasts.html" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Forecasts</span>
+        </a>
+        <a href="analytics.html" class="nav-item">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Analytics</span>
+        </a>
+        <a href="organisations.html" class="nav-item">
+          <i class="fa-solid fa-building"></i>
+          <span>Organisations</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-meta">
+            <div class="user-name" id="sidebar-user-name">Ananya Deshmukh</div>
+            <div class="user-role-badge" id="sidebar-user-role">Role: Admin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main class="app-main">
+      <!-- Top Navigation Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button id="mobile-menu-btn" class="mobile-menu-btn">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div>
+            <h1 class="page-header-title">Operational Command Dashboard</h1>
+            <p class="page-header-sub">Dynamic surplus allocation &amp; real-time logistics intelligence</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Date Indicator -->
+          <div class="date-indicator">
+            <i class="fa-solid fa-calendar-day text-primary"></i>
+            <span id="header-date-display">Today</span>
+          </div>
+
+          <!-- Reset Demo Button -->
+          <button class="btn btn-outline btn-sm" onclick="confirmResetDemo()" title="Reset data to initial seed">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+            <span>Reset Demo</span>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle-btn" class="header-btn" title="Toggle Light/Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Notifications Button & Dropdown -->
+          <div style="position: relative;">
+            <button id="notif-dropdown-btn" class="header-btn" title="Notifications">
+              <i class="fa-solid fa-bell"></i>
+              <span class="notif-dot"></span>
+            </button>
+            <div id="notif-dropdown-menu" class="dropdown-menu">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Telemetry Alerts</span>
+                <button class="btn btn-ghost btn-sm" onclick="StorageManager.markAllNotificationsRead(); renderNotifications(); showToast('All notifications marked read', 'info');">
+                  Mark all read
+                </button>
+              </div>
+              <div id="notif-items-list" style="max-height: 280px; overflow-y: auto;"></div>
+            </div>
+          </div>
+
+          <!-- Role Persona Switcher -->
+          <div style="position: relative;">
+            <button id="role-switcher-btn" class="btn btn-outline btn-sm" style="display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-user-shield text-primary"></i>
+              <span>Role: <strong id="header-active-role">Admin</strong></span>
+              <i class="fa-solid fa-caret-down text-muted"></i>
+            </button>
+            <div id="role-switcher-menu" class="dropdown-menu" style="width: 250px;">
+              <div class="dropdown-header">
+                <span class="dropdown-title">Switch Persona Role</span>
+              </div>
+              <div class="dropdown-item" onclick="switchDemoRole('admin')">
+                <i class="fa-solid fa-crown text-primary mt-1"></i>
+                <div><strong>Administrator</strong><div class="text-xs text-muted">Full visibility &amp; approvals</div></div>
+              </div>
+              <div class="dropdown-item" onclick="switchDemoRole('provider')">
+                <i class="fa-solid fa-utensils text-primary mt-1"></i>
+                <div><strong>Food Provider</strong><div class="text-xs text-muted">Hostels &amp; hotel kitchens</div></div>
+              </div>
+              <div class="dropdown-item" onclick="switchDemoRole('recipient')">
+                <i class="fa-solid fa-hand-holding-heart text-primary mt-1"></i>
+                <div><strong>Recipient NGO</strong><div class="text-xs text-muted">Shelters &amp; food banks</div></div>
+              </div>
+              <div class="dropdown-item" onclick="switchDemoRole('driver')">
+                <i class="fa-solid fa-truck text-primary mt-1"></i>
+                <div><strong>Delivery Partner</strong><div class="text-xs text-muted">EV logistics &amp; handoffs</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <div class="page-body">
+        <!-- Top Operations Alert Banner -->
+        <div class="ops-banner">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.15); padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.725rem; font-weight: 700; color: var(--color-lime); margin-bottom: 0.5rem;">
+              <i class="fa-solid fa-brain"></i> Autonomous Food Flow Engine Active
+            </div>
+            <div class="ops-banner-title">Perishables Re-routed Before Spoilage</div>
+            <p class="ops-banner-sub">
+              Prioritizing urgent dinner portions in Sector 43 &amp; 29. Fleet tracking monitoring 4 active EV units across Gurugram.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <a href="matching.html" class="btn btn-lime">
+              <i class="fa-solid fa-microchip"></i>
+              <span>Generate Plan</span>
+            </a>
+            <a href="ai-coordinator.html" class="btn btn-outline" style="color: #fff; border-color: rgba(255,255,255,0.3);">
+              <span>AI Coordinator</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- KPI Summary Cards Grid -->
+        <div class="kpi-grid">
+          <!-- 1. Available Food -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Available Food</span>
+              <div class="kpi-card-icon"><i class="fa-solid fa-utensils"></i></div>
+            </div>
+            <div class="kpi-card-value">
+              <span id="kpi-available-portions">0</span>
+              <span class="kpi-card-unit">portions</span>
+            </div>
+            <div class="kpi-card-footer">
+              <i class="fa-solid fa-arrow-trend-up text-success"></i>
+              <span>+18% registered today</span>
+            </div>
+          </div>
+
+          <!-- 2. Food Successfully Delivered -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Delivered Meals</span>
+              <div class="kpi-card-icon" style="background-color: var(--color-success-bg); color: var(--color-success);">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+            </div>
+            <div class="kpi-card-value">
+              <span id="kpi-delivered-portions" style="color: var(--color-success);">0</span>
+              <span class="kpi-card-unit">portions</span>
+            </div>
+            <div class="kpi-card-footer">
+              <i class="fa-solid fa-shield-halved text-success"></i>
+              <span>Verified digital handoffs</span>
+            </div>
+          </div>
+
+          <!-- 3. Active Deliveries -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Active Runs</span>
+              <div class="kpi-card-icon"><i class="fa-solid fa-truck-fast"></i></div>
+            </div>
+            <div class="kpi-card-value">
+              <span id="kpi-active-deliveries">0</span>
+              <span class="kpi-card-unit">in transit</span>
+            </div>
+            <div class="kpi-card-footer">
+              <i class="fa-solid fa-route text-primary"></i>
+              <span>Live telematics active</span>
+            </div>
+          </div>
+
+          <!-- 4. Pending Allocations -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Pending Demands</span>
+              <div class="kpi-card-icon" style="background-color: var(--color-warning-bg); color: var(--color-warning);">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+              </div>
+            </div>
+            <div class="kpi-card-value">
+              <span id="kpi-pending-demands">0</span>
+              <span class="kpi-card-unit">needed</span>
+            </div>
+            <div class="kpi-card-footer">
+              <i class="fa-solid fa-clock text-warning"></i>
+              <span>Shelter requests queue</span>
+            </div>
+          </div>
+
+          <!-- 5. Delivery Success Rate -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Success Rate</span>
+              <div class="kpi-card-icon" style="background-color: var(--color-lime-bg); color: var(--color-primary-dark);">
+                <i class="fa-solid fa-percent"></i>
+              </div>
+            </div>
+            <div class="kpi-card-value">
+              <span id="kpi-success-rate">98.5%</span>
+            </div>
+            <div class="kpi-card-footer">
+              <i class="fa-solid fa-circle-check text-success"></i>
+              <span>Before safe expiry</span>
+            </div>
+          </div>
+
+          <!-- 6. Urgent Listings -->
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Urgent Batches</span>
+              <div class="kpi-card-icon" style="background-color: var(--color-danger-bg); color: var(--color-danger);">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+            </div>
+            <div class="kpi-card-value">
+              <span id="kpi-urgent-listings" style="color: var(--color-danger);">0</span>
+              <span class="kpi-card-unit">&lt;4h left</span>
+            </div>
+            <div class="kpi-card-footer">
+              <i class="fa-solid fa-stopwatch text-danger"></i>
+              <span>Requires rapid allocation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="charts-grid-2">
+          <!-- Hourly Redistribution Chart -->
+          <div class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Redistribution Activity Stream (Hourly)</h3>
+                <p class="text-xs text-muted">Surplus portions registered versus completed distributions</p>
+              </div>
+              <span class="badge badge-brand">Today's Pace</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="chart-redistribution-velocity"></canvas>
+            </div>
+          </div>
+
+          <!-- Delivery Status Breakdown -->
+          <div class="card chart-card">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Fleet Dispatch Status</h3>
+                <p class="text-xs text-muted">Active delivery distribution</p>
+              </div>
+              <a href="deliveries.html" class="text-xs text-primary" style="font-weight: 700;">Manage &rarr;</a>
+            </div>
+            <div class="chart-container" style="height: 220px;">
+              <canvas id="chart-fleet-status"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feeds & AI Suggestions Grid -->
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1.5rem;" class="dashboard-feeds-grid">
+          <!-- Left: AI Dispatch Recommendation Box -->
+          <div class="card" style="border-color: #b9e769; background: linear-gradient(to bottom right, var(--color-surface), rgba(185, 231, 105, 0.05));">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <div style="width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--color-primary); color: var(--color-lime); display: flex; align-items: center; justify-content: center;">
+                  <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95rem; font-weight: 800;">Algorithmic Dispatch Proposal</h3>
+                  <div class="text-xs text-muted">Optimal pairing ready for execution</div>
+                </div>
+              </div>
+              <span class="badge badge-lime">Match Score: 94/100</span>
+            </div>
+
+            <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.15rem; margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem;">
+                <span class="text-xs text-primary" style="font-weight: 700; text-transform: uppercase;">Primary Recommendation</span>
+                <span class="text-xs font-mono text-muted">Distance: 4.8 km</span>
+              </div>
+              <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 0.35rem;">
+                Split 120 Portions from Aryabhatta Hostel Mess
+              </h4>
+              <p style="font-size: 0.825rem; color: var(--color-text-secondary); line-height: 1.5;">
+                Allocate <strong>70 portions</strong> to <em>Asha Community Shelter</em> (dinner crowd arriving in 1h) and <strong>50 portions</strong> to <em>Navjyoti Child Care</em>. Assigns Driver Rajesh Kumar (EV Van) &amp; Vikas Verma (Cargo Auto).
+              </p>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--color-border-subtle); font-size: 0.775rem;">
+                <span class="text-muted"><i class="fa-solid fa-clock text-warning"></i> Safe buffer: <strong>2.9 hrs remaining</strong></span>
+                <a href="matching.html" class="btn btn-primary btn-sm">
+                  <span>Review &amp; Dispatch</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Simulator Launcher Strip -->
+            <div style="background: var(--color-surface-subtle); border-radius: var(--radius-md); padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <i class="fa-solid fa-rotate text-primary"></i>
+                <div style="font-size: 0.775rem;">
+                  <strong style="color: var(--color-text-main);">Test Vehicle Breakdown Recovery:</strong>
+                  <div class="text-muted">Simulate battery fault on EV-409 &amp; automatic reroute to standby van</div>
+                </div>
+              </div>
+              <a href="ai-coordinator.html" class="btn btn-outline btn-sm">Launch Simulator</a>
+            </div>
+          </div>
+
+          <!-- Right: Urgent Deadlines List -->
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">
+              <h3 style="font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-triangle-exclamation text-warning"></i> Urgent Safe Deadlines
+              </h3>
+              <a href="food-listings.html" class="text-xs text-primary" style="font-weight: 700;">View Inventory &rarr;</a>
+            </div>
+
+            <div id="urgent-listings-feed" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Tables Row -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+          <!-- Recent Listings -->
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">
+              <h3 style="font-size: 0.95rem; font-weight: 800;">Recent Surplus Batches</h3>
+              <a href="food-listings.html" class="btn btn-ghost btn-sm">View All &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Item &amp; Provider</th>
+                    <th>Portions</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-listings-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent Deliveries -->
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--color-border);">
+              <h3 style="font-size: 0.95rem; font-weight: 800;">Active Chain of Custody</h3>
+              <a href="deliveries.html" class="btn btn-ghost btn-sm">Fleet View &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Trip ID &amp; Item</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-deliveries-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Shared Scripts -->
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

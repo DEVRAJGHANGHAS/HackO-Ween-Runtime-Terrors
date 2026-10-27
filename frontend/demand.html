@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipient Demand — FoodResQ AI</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-logo">
+          <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
+          <span class="logo-text">FoodResQ <span style="color: var(--color-lime);">AI</span></span>
+        </a>
+        <button id="sidebar-toggle" class="sidebar-toggle-btn"><i class="fa-solid fa-chevron-left"></i></button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-gauge-high"></i><span>Overview</span></a>
+        <a href="food-listings.html" class="nav-item"><i class="fa-solid fa-utensils"></i><span>Food Listings</span><span class="nav-badge" id="badge-listings-count">0</span></a>
+        <a href="demand.html" class="nav-item active"><i class="fa-solid fa-hand-holding-heart"></i><span>Recipient Demand</span><span class="nav-badge" id="badge-demands-count">0</span></a>
+        <a href="matching.html" class="nav-item highlight-ai"><i class="fa-solid fa-microchip"></i><span>Smart Matching</span></a>
+        <a href="deliveries.html" class="nav-item"><i class="fa-solid fa-truck-fast"></i><span>Deliveries</span><span class="nav-badge" id="badge-deliveries-count">0</span></a>
+        <a href="map.html" class="nav-item"><i class="fa-solid fa-map-location-dot"></i><span>Live Map</span></a>
+        <a href="ai-coordinator.html" class="nav-item highlight-ai"><i class="fa-solid fa-brain"></i><span>AI Coordinator</span></a>
+        <a href="forecasts.html" class="nav-item"><i class="fa-solid fa-chart-line"></i><span>Forecasts</span></a>
+        <a href="analytics.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i><span>Analytics</span></a>
+        <a href="organisations.html" class="nav-item"><i class="fa-solid fa-building"></i><span>Organisations</span></a>
+        <a href="settings.html" class="nav-item"><i class="fa-solid fa-sliders"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="user-avatar" id="sidebar-user-avatar">A</div>
+          <div class="user-meta">
+            <div class="user-name" id="sidebar-user-name">Ananya Deshmukh</div>
+            <div class="user-role-badge" id="sidebar-user-role">Role: Admin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button id="mobile-menu-btn" class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+          <div>
+            <h1 class="page-header-title">Recipient Demand Directory</h1>
+            <p class="page-header-sub">Shelter meal requirements, receiving capacity, and urgent hunger relief requests</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn btn-primary" onclick="openModal('add-demand-modal')">
+            <i class="fa-solid fa-plus"></i>
+            <span>Submit Meal Request</span>
+          </button>
+          <button id="theme-toggle-btn" class="header-btn"><i class="fa-solid fa-moon"></i></button>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- Filter Toolbar -->
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="demand-search" class="form-control" placeholder="Search by recipient shelter name or address...">
+          </div>
+
+          <div style="min-width: 170px;">
+            <select id="filter-demand-urgency" class="form-control">
+              <option value="all">All Urgencies</option>
+              <option value="critical">Critical (&lt; 2 hrs)</option>
+              <option value="high">High (Evening Dinner)</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+
+          <div style="min-width: 160px;">
+            <select id="filter-demand-status" class="form-control">
+              <option value="all">All Statuses</option>
+              <option value="pending">Pending (Unmatched)</option>
+              <option value="partially_matched">Partially Matched</option>
+              <option value="fully_matched">Fully Matched</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Demands Grid Container -->
+        <div id="demands-grid-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: Submit Meal Request -->
+  <div id="add-demand-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Submit Food Demand Request</h3>
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('add-demand-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="add-demand-form">
+        <div class="modal-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="dem-category">Food Category <span class="required">*</span></label>
+              <select id="dem-category" class="form-control" required>
+                <option value="prepared_meals">Prepared Meals / Cooked</option>
+                <option value="bakery">Bakery &amp; Breads</option>
+                <option value="fruits">Fresh Fruits</option>
+                <option value="packaged_food">Packaged Meals</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dem-urgency">Urgency Level <span class="required">*</span></label>
+              <select id="dem-urgency" class="form-control" required>
+                <option value="critical">Critical (Immediate Service)</option>
+                <option value="high" selected>High (Evening Meal Serving)</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="dem-quantity">Portions Requested <span class="required">*</span></label>
+              <input type="number" id="dem-quantity" class="form-control" min="5" value="70" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="dem-capacity">Receiving Capacity (Max Seats) <span class="required">*</span></label>
+              <input type="number" id="dem-capacity" class="form-control" min="5" value="100" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dem-address">Dropoff Shelter Address <span class="required">*</span></label>
+            <input type="text" id="dem-address" class="form-control" value="Behind Civil Lines, Sector 14, Gurugram" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dem-special">Dietary &amp; Special Handling Notes</label>
+            <input type="text" id="dem-special" class="form-control" value="Vegetarian preferred, hot meal ready to serve">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dem-notes">Shelter Notes (Optional)</label>
+            <textarea id="dem-notes" class="form-control" placeholder="e.g. Expected night shelter arrival of 70 unhoused workers by 21:00."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('add-demand-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Demand Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: View Demand Details -->
+  <div id="view-demand-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="demand-detail-title">Demand Overview</h3>
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('view-demand-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="demand-detail-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeModal('view-demand-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/demand.js"></script>
+</body>
+</html>

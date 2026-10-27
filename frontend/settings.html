@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings & System Preferences — FoodResQ AI</title>
+  <meta name="description" content="Manage user profile, active persona simulator, visual preferences, and demo database state.">
+  
+  <!-- Favicon & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Core & Page CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="dashboard-body">
+
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="brand-text">
+            <span class="brand-title">FoodResQ<span class="brand-ai">AI</span></span>
+            <span class="brand-tagline">Logistics Engine</span>
+          </div>
+        </a>
+        <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Collapse Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-persona">
+        <div class="persona-avatar" id="sidebarAvatar">AU</div>
+        <div class="persona-info">
+          <span class="persona-name" id="sidebarName">Admin User</span>
+          <span class="persona-role" id="sidebarRole">Network Dispatcher</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Operations</div>
+        <a href="dashboard.html" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="food-listings.html" class="nav-item">
+          <i class="fa-solid fa-bowl-food"></i>
+          <span>Food Surplus</span>
+          <span class="nav-badge" id="badgeSurplus">4</span>
+        </a>
+        <a href="demand.html" class="nav-item">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>Recipient Demand</span>
+          <span class="nav-badge" id="badgeDemand">3</span>
+        </a>
+        <a href="matching.html" class="nav-item">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Smart Matching</span>
+        </a>
+        <a href="deliveries.html" class="nav-item">
+          <i class="fa-solid fa-truck-fast"></i>
+          <span>Fleet Deliveries</span>
+          <span class="nav-badge alert" id="badgeDeliveries">2</span>
+        </a>
+        <a href="map.html" class="nav-item">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Live Corridor Map</span>
+        </a>
+
+        <div class="nav-section-label">Intelligence</div>
+        <a href="ai-coordinator.html" class="nav-item">
+          <i class="fa-solid fa-robot"></i>
+          <span>AI Coordinator</span>
+        </a>
+        <a href="forecasts.html" class="nav-item">
+          <i class="fa-solid fa-chart-area"></i>
+          <span>Surplus Forecasts</span>
+        </a>
+        <a href="analytics.html" class="nav-item">
+          <i class="fa-solid fa-seedling"></i>
+          <span>Impact & ESG</span>
+        </a>
+
+        <div class="nav-section-label">Directory & System</div>
+        <a href="organisations.html" class="nav-item">
+          <i class="fa-solid fa-building-ngo"></i>
+          <span>Partner Directory</span>
+        </a>
+        <a href="settings.html" class="nav-item active">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="network-status">
+          <span class="status-dot pulsing"></span>
+          <span>Mesh Sync: <strong>Optimal</strong></span>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Container -->
+    <div class="app-main">
+      <!-- Top Navigation Bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Mobile Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-area">
+            <h1 class="page-title">Settings & System Preferences</h1>
+            <p class="page-subtitle">Configure demo user persona, application preferences, and local storage state.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Dropdown -->
+          <div class="dropdown-wrapper">
+            <button class="header-icon-btn" id="notificationsBtn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-indicator" id="notifBadge"></span>
+            </button>
+            <div class="dropdown-menu notif-menu" id="notificationsMenu">
+              <div class="dropdown-header">
+                <h3>System Notifications</h3>
+                <span class="badge badge-subtle" id="notifCount">3 New</span>
+              </div>
+              <div class="notif-list" id="notifListContainer"></div>
+              <div class="dropdown-footer">
+                <button class="btn btn-text btn-sm" id="markAllReadBtn">Mark all as read</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button class="header-icon-btn" id="themeToggleBtn" aria-label="Toggle Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- User Profile -->
+          <div class="dropdown-wrapper">
+            <div class="user-pill" id="userPill">
+              <div class="user-avatar" id="headerAvatar">AU</div>
+              <div class="user-meta">
+                <span class="user-name" id="headerName">Admin User</span>
+                <span class="user-org" id="headerOrg">Central Food Bank</span>
+              </div>
+              <i class="fa-solid fa-chevron-down pill-arrow"></i>
+            </div>
+            <div class="dropdown-menu profile-menu" id="profileMenu">
+              <div class="dropdown-header">
+                <strong>Signed in as</strong>
+                <p id="profileMenuEmail">admin@foodresq.ai</p>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="persona-switch-section">
+                <div class="dropdown-label">Simulate Role View:</div>
+                <button class="persona-switch-btn active" data-persona="admin"><i class="fa-solid fa-shield-halved"></i> Administrator</button>
+                <button class="persona-switch-btn" data-persona="provider"><i class="fa-solid fa-hotel"></i> Aryabhatta Mess</button>
+                <button class="persona-switch-btn" data-persona="recipient"><i class="fa-solid fa-house-chimney-window"></i> Asha Shelter</button>
+                <button class="persona-switch-btn" data-persona="driver"><i class="fa-solid fa-truck"></i> Rajesh Kumar (EV)</button>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="settings.html" class="dropdown-link"><i class="fa-solid fa-sliders"></i> Preferences</a>
+              <button class="dropdown-link logout-link" id="menuLogoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        <div class="grid grid-2 gap-lg mb-lg">
+          <!-- Active Demo Persona Switcher -->
+          <div class="card p-lg">
+            <div class="flex items-center gap-xs mb-sm">
+              <i class="fa-solid fa-users-viewfinder text-primary text-lg"></i>
+              <h3 class="text-base font-bold">Simulate Demo Stakeholder Persona</h3>
+            </div>
+            <p class="text-xs text-secondary mb-md">
+              Switch the active authenticated persona to test role-specific workflows (e.g. food listing vs demand vs driver delivery dispatch).
+            </p>
+
+            <div class="flex flex-column gap-sm" id="settingsPersonaList">
+              <div class="card p-sm cursor-pointer border hover-border-primary" data-persona-select="admin">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-sm">
+                    <div class="persona-avatar bg-primary text-white">AU</div>
+                    <div>
+                      <strong class="text-sm block">Administrator (Central Dispatcher)</strong>
+                      <span class="text-xs text-secondary">Full system governance, AI recovery controls & ESG export</span>
+                    </div>
+                  </div>
+                  <span class="badge badge-primary" id="personaBadgeAdmin">Active</span>
+                </div>
+              </div>
+
+              <div class="card p-sm cursor-pointer border hover-border-primary" data-persona-select="provider">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-sm">
+                    <div class="persona-avatar" style="background: #e6a23c; color: #fff;">AM</div>
+                    <div>
+                      <strong class="text-sm block">Food Provider (Aryabhatta Hostel Mess)</strong>
+                      <span class="text-xs text-secondary">Surplus inventory creator, packaging & cold-chain logger</span>
+                    </div>
+                  </div>
+                  <span class="badge badge-subtle" id="personaBadgeProvider">Switch</span>
+                </div>
+              </div>
+
+              <div class="card p-sm cursor-pointer border hover-border-primary" data-persona-select="recipient">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-sm">
+                    <div class="persona-avatar" style="background: #6366f1; color: #fff;">AS</div>
+                    <div>
+                      <strong class="text-sm block">Recipient Shelter (Asha Community Trust)</strong>
+                      <span class="text-xs text-secondary">Demand posting, intake capacity & proof of delivery signature</span>
+                    </div>
+                  </div>
+                  <span class="badge badge-subtle" id="personaBadgeRecipient">Switch</span>
+                </div>
+              </div>
+
+              <div class="card p-sm cursor-pointer border hover-border-primary" data-persona-select="driver">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-sm">
+                    <div class="persona-avatar" style="background: #0284c7; color: #fff;">RK</div>
+                    <div>
+                      <strong class="text-sm block">Green Courier Driver (Rajesh Kumar, EV-409)</strong>
+                      <span class="text-xs text-secondary">Navigation waypoints, custody handoff & incident reporting</span>
+                    </div>
+                  </div>
+                  <span class="badge badge-subtle" id="personaBadgeDriver">Switch</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Profile Details -->
+          <div class="card p-lg">
+            <div class="flex items-center gap-xs mb-sm">
+              <i class="fa-solid fa-id-card text-primary text-lg"></i>
+              <h3 class="text-base font-bold">User Profile Settings</h3>
+            </div>
+            <p class="text-xs text-secondary mb-md">Manage personal identity details associated with the current session.</p>
+
+            <form id="profileForm">
+              <div class="form-group">
+                <label class="form-label required">Full Name</label>
+                <input type="text" id="profName" class="form-control" value="Admin User" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Email Address</label>
+                <input type="email" id="profEmail" class="form-control" value="admin@foodresq.ai" required>
+              </div>
+              <div class="grid grid-2 gap-md">
+                <div class="form-group">
+                  <label class="form-label required">Organization</label>
+                  <input type="text" id="profOrg" class="form-control" value="Central Food Bank Network" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="tel" id="profPhone" class="form-control" value="+91 98123 45678">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk mr-xs"></i> Save Profile Details
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- System & Local Storage Data Management -->
+        <div class="card p-lg mb-lg border border-warning" style="background: rgba(230, 162, 60, 0.03);">
+          <div class="flex items-center justify-between flex-wrap gap-md mb-md">
+            <div>
+              <div class="flex items-center gap-xs">
+                <i class="fa-solid fa-database text-warning text-lg"></i>
+                <h3 class="text-base font-bold">Demo Data Management & Browser Storage</h3>
+              </div>
+              <p class="text-xs text-secondary mt-xs">
+                All mock transactions, custom batches, and delivery states are stored locally in your browser's <code>localStorage</code>.
+              </p>
+            </div>
+            <div class="flex items-center gap-sm">
+              <button class="btn btn-danger" id="btnResetAllData">
+                <i class="fa-solid fa-trash-arrow-up mr-xs"></i> Reset Demo Data to Pristine State
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-2 gap-md">
+            <div class="p-md bg-surface border rounded">
+              <h4 class="font-bold text-sm mb-xs"><i class="fa-solid fa-file-export text-primary mr-xs"></i> Export Storage Backup (JSON)</h4>
+              <p class="text-xs text-secondary mb-sm">Download a snapshot of the current state including all listings, demands, and deliveries.</p>
+              <button class="btn btn-secondary btn-sm" id="btnExportJSON">
+                <i class="fa-solid fa-download mr-xs"></i> Download Backup JSON
+              </button>
+            </div>
+
+            <div class="p-md bg-surface border rounded">
+              <h4 class="font-bold text-sm mb-xs"><i class="fa-solid fa-file-import text-primary mr-xs"></i> Restore State from JSON</h4>
+              <p class="text-xs text-secondary mb-sm">Upload a previously exported FoodResQ AI JSON snapshot to restore state.</p>
+              <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('jsonFileInput').click();">
+                <i class="fa-solid fa-upload mr-xs"></i> Select File to Restore
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notification Threshold Preferences -->
+        <div class="card p-lg">
+          <div class="flex items-center gap-xs mb-sm">
+            <i class="fa-solid fa-bell text-primary text-lg"></i>
+            <h3 class="text-base font-bold">Notification & Dispatch Alerts</h3>
+          </div>
+          <p class="text-xs text-secondary mb-md">Configure automated alerts for temperature deviations, deadline urgencies, and fleet incidents.</p>
+
+          <div class="flex flex-column gap-md">
+            <label class="checkbox-label flex items-center justify-between p-sm border rounded">
+              <div>
+                <strong class="text-sm block">Critical Perishability Alert (&lt; 2 Hours Remaining)</strong>
+                <span class="text-xs text-secondary">Trigger high-priority audio and visual toast notifications when safe deadline draws near.</span>
+              </div>
+              <input type="checkbox" id="prefPerishAlert" checked>
+            </label>
+
+            <label class="checkbox-label flex items-center justify-between p-sm border rounded">
+              <div>
+                <strong class="text-sm block">Cold-Chain Temperature Deviation Warnings (&gt; 65°C / &lt; 4°C)</strong>
+                <span class="text-xs text-secondary">Alert dispatch coordinator upon IoT telemetry breaching FSSAI hot/cold holding norms.</span>
+              </div>
+              <input type="checkbox" id="prefTempAlert" checked>
+            </label>
+
+            <label class="checkbox-label flex items-center justify-between p-sm border rounded">
+              <div>
+                <strong class="text-sm block">Automated AI Re-matching Authorization</strong>
+                <span class="text-xs text-secondary">Permit the AI Coordinator to dynamically assign standby couriers without requiring manual confirmation.</span>
+              </div>
+              <input type="checkbox" id="prefAutoDispatch" checked>
+            </label>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/demo-data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>
