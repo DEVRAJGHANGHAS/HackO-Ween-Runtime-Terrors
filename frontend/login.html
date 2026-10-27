@@ -15,130 +15,528 @@
   <link rel="stylesheet" href="css/responsive.css">
   
   <style>
+    /* ==========================================================================
+       Fluid Authentication Page & Glassmorphic Card Styles
+       ========================================================================== */
     .auth-page {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 2rem 1rem;
-      background: radial-gradient(circle at 50% 0%, rgba(185, 231, 105, 0.12) 0%, transparent 60%);
+      padding: 2.5rem 1.25rem;
+      position: relative;
+      overflow-x: hidden;
+      background: var(--color-bg);
     }
+
+    /* Ambient Floating Gradient Orbs */
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.55;
+      animation: floatOrb 12s ease-in-out infinite alternate;
+    }
+    .orb-1 {
+      width: 380px;
+      height: 380px;
+      top: -80px;
+      left: 10%;
+      background: radial-gradient(circle, rgba(199, 243, 107, 0.45) 0%, rgba(20, 90, 67, 0.2) 70%, transparent 100%);
+    }
+    .orb-2 {
+      width: 420px;
+      height: 420px;
+      bottom: -100px;
+      right: 10%;
+      background: radial-gradient(circle, rgba(20, 90, 67, 0.3) 0%, rgba(199, 243, 107, 0.25) 70%, transparent 100%);
+      animation-duration: 16s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, 20px) scale(1.06); }
+      100% { transform: translate(-20px, 35px) scale(0.96); }
+    }
+
+    .auth-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .auth-top-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 0.4rem 0.85rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+    .back-home-link:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
+      transform: translateX(-2px);
+    }
+
     .auth-card {
       width: 100%;
-      max-width: 440px;
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(226, 232, 225, 0.9);
       border-radius: var(--radius-xl);
-      padding: 2rem;
-      box-shadow: var(--shadow-float);
+      padding: 2.25rem 2rem;
+      box-shadow: 0 20px 45px -15px rgba(20, 90, 67, 0.12), 0 0 1px 1px rgba(20, 90, 67, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
-    .persona-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
+
+    [data-theme="dark"] .auth-card {
+      background: rgba(20, 38, 30, 0.9);
+      border-color: rgba(34, 67, 53, 0.9);
+      box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.5);
     }
-    .persona-btn {
-      padding: 0.6rem 0.75rem;
-      border: 1px solid var(--color-border);
+
+    [data-theme="dark"] .back-home-link {
+      background: rgba(20, 38, 30, 0.7);
+    }
+
+    /* Active Session Banner */
+    .session-indicator {
+      display: none;
+      background: var(--color-primary-light);
+      border: 1px solid rgba(20, 90, 67, 0.2);
       border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.8rem;
+      color: var(--color-primary-dark);
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Persona Selector Grid */
+    .persona-section {
       background: var(--color-surface-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 0.85rem;
+      margin-bottom: 1.35rem;
+      transition: all 0.25s ease;
+    }
+
+    .persona-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
       font-size: 0.75rem;
       font-weight: 700;
-      text-align: left;
-      cursor: pointer;
-      transition: var(--transition);
+      color: var(--color-text-main);
+    }
+
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .persona-card {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.6rem;
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      text-align: left;
     }
-    .persona-btn:hover, .persona-btn.active {
+
+    .persona-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px -4px rgba(20, 90, 67, 0.12);
+    }
+
+    .persona-card.active {
       border-color: var(--color-primary);
       background: var(--color-primary-light);
+      box-shadow: 0 0 0 1px var(--color-primary);
+    }
+
+    .persona-icon-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      background: var(--color-surface-subtle);
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .persona-card.active .persona-icon-badge {
+      background: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .persona-card-meta {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .persona-card-title {
+      font-size: 0.775rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .persona-card-sub {
+      font-size: 0.68rem;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Active Persona Info Ribbon */
+    .persona-preview-ribbon {
+      margin-top: 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--radius-sm);
+      background: rgba(20, 90, 67, 0.08);
+      border: 1px dashed rgba(20, 90, 67, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--color-primary-dark);
+      animation: fadeIn 0.25s ease;
+    }
+
+    /* Input Field Container with Left Icon */
+    .input-icon-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon-wrap i.prefix-icon {
+      position: absolute;
+      left: 12px;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .input-icon-wrap .form-control {
+      padding-left: 2.35rem;
+      padding-right: 2.5rem;
+      font-size: 0.88rem;
+      height: 44px;
+      border-radius: var(--radius-md);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .input-icon-wrap .form-control:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3.5px rgba(20, 90, 67, 0.12);
+    }
+
+    .input-icon-wrap .form-control:focus + i.prefix-icon {
       color: var(--color-primary);
+    }
+
+    .toggle-pwd-btn {
+      position: absolute;
+      right: 8px;
+      background: none;
+      border: none;
+      padding: 6px 8px;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .toggle-pwd-btn:hover {
+      color: var(--color-text-main);
+      background: var(--color-surface-hover);
+    }
+
+    /* Inline Alert Box */
+    .auth-alert {
+      display: none;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.8rem;
+      margin-bottom: 1.25rem;
+      align-items: flex-start;
+      gap: 0.65rem;
+      animation: slideDown 0.25s ease;
+    }
+
+    .auth-alert.danger {
+      display: flex;
+      background: var(--color-danger-bg);
+      border: 1px solid var(--color-danger-border);
+      color: var(--color-danger);
+    }
+
+    .auth-alert.shake {
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Submit Button Fluid Micro-interactions */
+    .btn-submit-login {
+      height: 46px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit-login:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px -4px rgba(20, 90, 67, 0.3);
+    }
+
+    .btn-submit-login:active:not(:disabled) {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .btn-submit-login.success-state {
+      background: var(--color-success) !important;
+      border-color: var(--color-success) !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Demo Credentials Legend */
+    .demo-credentials-legend {
+      background: var(--color-surface-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.85rem;
+      margin-top: 1.25rem;
+      font-size: 0.72rem;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+
+    .demo-credentials-legend strong {
+      color: var(--color-text-main);
     }
   </style>
 </head>
 <body class="auth-page">
 
-  <!-- Logo -->
-  <a href="index.html" class="brand-logo" style="margin-bottom: 1.5rem;">
-    <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
-    <div class="brand-title">FoodResQ <span style="color: var(--color-primary);">AI</span></div>
-  </a>
+  <!-- Floating Ambient Orbs -->
+  <div class="ambient-orb orb-1"></div>
+  <div class="ambient-orb orb-2"></div>
 
-  <div class="auth-card">
-    <div style="text-align: center; margin-bottom: 1.5rem;">
-      <h2 style="font-size: 1.4rem; font-weight: 800;">Sign In to Console</h2>
-      <p class="text-xs text-muted" style="margin-top: 0.25rem;">
-        Enter credentials or pick a demo role to test workflows
-      </p>
+  <div class="auth-wrapper">
+    <!-- Top Nav with Back Link -->
+    <div class="auth-top-nav">
+      <a href="index.html" class="back-home-link" title="Return to Landing Page">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Home</span>
+      </a>
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-logo" style="margin-bottom: 0;">
+        <div class="brand-icon"><i class="fa-solid fa-leaf"></i></div>
+        <div class="brand-title">FoodResQ <span style="color: var(--color-primary);">AI</span></div>
+      </a>
+      
+      <div style="width: 70px;"></div> <!-- Spacer balance -->
     </div>
 
-    <!-- 1-Click Demo Persona Picker -->
-    <div style="background: var(--color-surface-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.75rem; margin-bottom: 1.25rem;">
-      <div style="font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-main); display: flex; align-items: center; gap: 0.35rem;">
-        <i class="fa-solid fa-wand-magic-sparkles text-primary"></i> 1-Click Demo Personas:
-      </div>
-      <div class="persona-grid">
-        <button type="button" class="persona-btn active" onclick="pickDemoPersona('admin')">
-          <span>👑 Admin (Lead)</span>
-        </button>
-        <button type="button" class="persona-btn" onclick="pickDemoPersona('provider')">
-          <span>🍲 Mess Warden</span>
-        </button>
-        <button type="button" class="persona-btn" onclick="pickDemoPersona('recipient')">
-          <span>❤️ Shelter NGO</span>
-        </button>
-        <button type="button" class="persona-btn" onclick="pickDemoPersona('driver')">
-          <span>🚚 EV Driver</span>
-        </button>
-      </div>
-    </div>
-
-    <form id="login-form">
-      <div class="form-group">
-        <label class="form-label" for="login-email">Email Address <span class="required">*</span></label>
-        <input type="email" id="login-email" class="form-control" value="ananya@foodresq.ai" required>
+    <!-- Main Card -->
+    <div class="auth-card">
+      <div style="text-align: center; margin-bottom: 1.35rem;">
+        <h1 style="font-size: 1.45rem; font-weight: 800; color: var(--color-text-main); margin-bottom: 0.25rem;">Sign In to Console</h1>
+        <p class="text-xs text-secondary" style="margin: 0;">
+          Authenticate with your partner credentials or select a verified persona
+        </p>
       </div>
 
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-          <label class="form-label" for="login-password" style="margin-bottom: 0;">Password <span class="required">*</span></label>
-          <span class="text-xs text-muted" style="cursor: pointer;" onclick="showToast('Demo note: Any password grants demo access.', 'info')">Forgot?</span>
-        </div>
-        <div style="position: relative;">
-          <input type="password" id="login-password" class="form-control" value="demo12345" required>
-          <button type="button" id="toggle-pwd-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--color-text-muted);">
-            <i class="fa-solid fa-eye"></i>
-          </button>
+      <!-- Active Session Notice (Rendered dynamically if already signed in) -->
+      <div id="active-session-banner" class="session-indicator">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <i class="fa-solid fa-circle-check text-primary mr-xs"></i>
+            <span>Signed in as <strong id="active-session-name">User</strong> (<span id="active-session-role">Admin</span>)</span>
+          </div>
+          <a href="dashboard.html" style="font-weight: 700; color: var(--color-primary); text-decoration: underline; margin-left: 0.5rem;">Go to Dashboard &rarr;</a>
         </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-        <label class="checkbox-label">
-          <input type="checkbox" id="remember-me" checked>
-          <span style="font-size: 0.775rem;">Remember demo session</span>
-        </label>
+      <!-- 1-Click Interactive Persona Selector -->
+      <div class="persona-section">
+        <div class="persona-section-header">
+          <span style="display: flex; align-items: center; gap: 0.4rem;">
+            <i class="fa-solid fa-wand-magic-sparkles text-primary"></i>
+            <span>1-Click Stakeholder Personas:</span>
+          </span>
+          <span class="text-xs text-muted" id="persona-badge-status">Click to switch</span>
+        </div>
+
+        <div class="persona-grid">
+          <div class="persona-card active" id="persona-admin" onclick="pickDemoPersona('admin')">
+            <div class="persona-icon-badge">👑</div>
+            <div class="persona-card-meta">
+              <div class="persona-card-title">Ananya (Lead)</div>
+              <div class="persona-card-sub">Central Dispatcher</div>
+            </div>
+          </div>
+
+          <div class="persona-card" id="persona-provider" onclick="pickDemoPersona('provider')">
+            <div class="persona-icon-badge">🍲</div>
+            <div class="persona-card-meta">
+              <div class="persona-card-title">Dr. Meena</div>
+              <div class="persona-card-sub">Aryabhatta Mess</div>
+            </div>
+          </div>
+
+          <div class="persona-card" id="persona-recipient" onclick="pickDemoPersona('recipient')">
+            <div class="persona-icon-badge">🏠</div>
+            <div class="persona-card-meta">
+              <div class="persona-card-title">Sister Teresa</div>
+              <div class="persona-card-sub">Asha Shelter NGO</div>
+            </div>
+          </div>
+
+          <div class="persona-card" id="persona-driver" onclick="pickDemoPersona('driver')">
+            <div class="persona-icon-badge">🚚</div>
+            <div class="persona-card-meta">
+              <div class="persona-card-title">Rajesh Kumar</div>
+              <div class="persona-card-sub">Green EV Logistics</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Selected Persona Ribbon -->
+        <div id="persona-preview-ribbon" class="persona-preview-ribbon">
+          <div style="display: flex; align-items: center; gap: 0.4rem; min-width: 0;">
+            <i class="fa-solid fa-user-check text-primary"></i>
+            <span id="persona-ribbon-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              Active Persona: <strong>Ananya Deshmukh</strong> &bull; Central Operations
+            </span>
+          </div>
+          <span class="badge badge-primary" id="persona-ribbon-role" style="font-size: 0.65rem; padding: 2px 6px;">ADMIN</span>
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-        <span>Sign In to Dashboard</span>
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
-    </form>
+      <!-- Inline Auth Alert -->
+      <div id="auth-alert" class="auth-alert danger" role="alert">
+        <i class="fa-solid fa-circle-exclamation mt-1"></i>
+        <div id="auth-alert-message" style="flex: 1;">Invalid credentials provided.</div>
+        <button type="button" onclick="hideAuthAlert()" style="background: none; border: none; cursor: pointer; color: inherit; opacity: 0.7;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
 
-    <div style="text-align: center; margin-top: 1.25rem; font-size: 0.8rem; color: var(--color-text-secondary);">
-      New partner organisation? <a href="register.html" style="font-weight: 700; color: var(--color-primary);">Register here</a>
-    </div>
+      <!-- Sign In Form -->
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="login-email">
+            <span>Email Address <span class="required">*</span></span>
+            <span id="email-valid-hint" style="font-size: 0.7rem; color: var(--color-success); display: none;">
+              <i class="fa-solid fa-check mr-xs"></i> Valid format
+            </span>
+          </label>
+          <div class="input-icon-wrap">
+            <input type="email" id="login-email" class="form-control" value="ananya@foodresq.ai" required autocomplete="email" placeholder="name@organisation.org">
+            <i class="fa-solid fa-envelope prefix-icon"></i>
+          </div>
+        </div>
 
-    <div style="text-align: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); font-size: 0.7rem; color: var(--color-text-muted);">
-      Notice: Frontend-only simulated authentication environment.
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password <span class="required">*</span></label>
+            <span class="text-xs text-muted" style="cursor: pointer;" onclick="handleForgotPassword()">Default: <code>DemoPassword123!</code></span>
+          </div>
+          <div class="input-icon-wrap">
+            <input type="password" id="login-password" class="form-control" value="DemoPassword123!" required autocomplete="current-password" placeholder="Enter password">
+            <i class="fa-solid fa-lock prefix-icon"></i>
+            <button type="button" id="toggle-pwd-btn" class="toggle-pwd-btn" title="Toggle password visibility" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.35rem;">
+          <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.45rem; cursor: pointer;">
+            <input type="checkbox" id="remember-me" checked>
+            <span style="font-size: 0.775rem; color: var(--color-text-secondary); user-select: none;">Remember my session</span>
+          </label>
+          <a href="#" onclick="showToast('Password reset link sent to demo registered email.', 'info'); return false;" style="font-size: 0.75rem; font-weight: 600; color: var(--color-primary);">Forgot password?</a>
+        </div>
+
+        <button type="submit" id="btn-submit" class="btn btn-primary btn-lg btn-submit-login" style="width: 100%;">
+          <span id="btn-submit-text">Sign In to Dashboard</span>
+          <i class="fa-solid fa-arrow-right" id="btn-submit-icon"></i>
+        </button>
+      </form>
+
+      <!-- Registration Redirect Link -->
+      <div style="text-align: center; margin-top: 1.35rem; font-size: 0.8rem; color: var(--color-text-secondary);">
+        New partner organisation? <a href="register.html" style="font-weight: 700; color: var(--color-primary); text-decoration: none;">Register on Network &rarr;</a>
+      </div>
+
+      <!-- Quick Demo Credentials Hint -->
+      <div class="demo-credentials-legend">
+        <div style="font-weight: 700; color: var(--color-text-main); margin-bottom: 0.25rem;">
+          <i class="fa-solid fa-shield-halved text-primary mr-xs"></i> Verified MongoDB Seed Credentials:
+        </div>
+        <div>Password for all seeded personas: <code style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--color-primary);">DemoPassword123!</code></div>
+      </div>
     </div>
   </div>
 
-  <script src="js/demo-data.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/api.js"></script>
   <script src="js/app.js"></script>
